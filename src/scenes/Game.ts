@@ -1,7 +1,7 @@
-import Phaser from 'phaser';
+import Phaser, { Cameras, Scene, Scenes } from 'phaser';
 import { DebugMenu } from '../scripts/debugMenu';
 
-export default class Demo extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
   debugMenu!: DebugMenu;
 
   constructor() {

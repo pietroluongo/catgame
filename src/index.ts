@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import config from './config';
-import GameScene from './scenes/Game';
+import MainMenuScene from './scenes/MainMenu';
+import gameScene from './scenes/Game'
 
-new Phaser.Game(
+const catGame = new Phaser.Game(
   Object.assign(config, {
-    scene: [GameScene]
+    scene: [MainMenuScene, gameScene]
   })
 );
