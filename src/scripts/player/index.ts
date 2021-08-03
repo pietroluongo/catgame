@@ -14,20 +14,37 @@ export default class Player extends Phaser.GameObjects.GameObject {
     }
 
     update() {
+        let { width, height } = this.scene.sys.game.canvas
+        let offset = 0.1; // Default offset.
         this.keyboard.on('keydown-W', () => {
-            this.y -= 0.1;
+            this.moveSprite(0, -offset);
         })
         this.keyboard.on('keydown-S', () => {
-            this.y += 0.1;
+            this.moveSprite(0, +offset);
         })
         this.keyboard.on('keydown-A', () => {
-            this.x -= 0.1;
+            this.moveSprite(-offset, 0);
         })
         this.keyboard.on('keydown-D', () => {
-            this.x += 0.1;
+            this.moveSprite(+offset, 0);
         })
         this.sprite.setX(this.x);
         this.sprite.setY(this.y);
+    }
+
+    moveSprite(xOffset : number, yOffset : number) {
+        if (!this.outsideScreenArea(this.x + xOffset, this.y + yOffset)) {
+            this.x += xOffset;
+            this.y += yOffset;
+        }
+    }
+
+    outsideScreenArea(x : number, y : number) {
+        let { width, height } = this.scene.sys.game.canvas;
+        let hSpriteW = this.sprite.displayWidth  / 2; // Half sprite dims for practical purposes
+        let hSpriteH = this.sprite.displayHeight / 2; // Half sprite dims for practical purposes
+
+        return (x <= hSpriteW) || (x >= width - hSpriteW) || (y <= hSpriteH) || (y >= height - hSpriteH);
     }
     
   }
