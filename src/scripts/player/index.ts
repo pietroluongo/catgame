@@ -5,11 +5,12 @@ export default class Player extends Phaser.GameObjects.GameObject {
     sprite: Phaser.GameObjects.Sprite;
     keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, keyboard: Phaser.Input.Keyboard.KeyboardPlugin) {
+    constructor(scene: Phaser.Scene,x: number, y: number, keyboard: Phaser.Input.Keyboard.KeyboardPlugin) {
         super(scene, 'player');
         [this.x, this.y] = [x, y];
         this.scene = scene;
         this.sprite = scene.add.sprite(x, y, '');
+        // this.sprite.setTexture('catbase'); TODO: LOAD THE IMAGE
         this.keyboard = keyboard;
     }
 
