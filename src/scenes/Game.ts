@@ -13,7 +13,10 @@ export default class GameScene extends Phaser.Scene {
 
   preload() {
     this.load.image('logo', 'assets/phaser3-logo.png');
-    this.load.image('catbase', 'assets/sprites/catglass.png')
+    this.load.image('catbase', 'assets/sprites/catbase.png')
+    this.load.image('flyingtoast', 'assets/sprites/flyingtoast.png')
+    this.load.image('rainbowtail', 'assets/sprites/rainbowtail.png')
+    this.load.image('rainbowtailalternate', 'assets/sprites/rainbowtailalternate.png')
     this.keyboard = this.input.keyboard;
   }
 
