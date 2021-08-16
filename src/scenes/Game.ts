@@ -1,10 +1,12 @@
 import Phaser, { Cameras, Scene, Scenes } from 'phaser';
 import { DebugMenu } from '../scripts/debugMenu';
 import Player from '../scripts/player';
+import Enemy from '../scripts/enemy';
 
 export default class GameScene extends Phaser.Scene {
   debugMenu!: DebugMenu;
   player!: Player;
+  enemies!: Array<Enemy>;
   keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
 
   constructor() {
@@ -22,6 +24,8 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.player = new Player(this, 100, 100, this.keyboard);
+    let enemy0 = new Enemy(this, 200, 200); // Testing
+    this.enemies = [enemy0]; // Testing
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
 
@@ -39,6 +43,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.debugMenu.update();
     this.player.update();
+    this.enemies[0].update(); // Testing
     // this.keyboard.on('keydown', () => {
     //   console.log('key');
     // })

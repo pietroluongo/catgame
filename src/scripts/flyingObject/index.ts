@@ -4,10 +4,9 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     scene: Phaser.Scene;
     sprite: Phaser.GameObjects.Sprite;
     tail : Phaser.GameObjects.Sprite;
-    keyboard : Phaser.Input.Keyboard.KeyboardPlugin;
     isMoving : boolean;
 
-    constructor(label : string, scene: Phaser.Scene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string>, keyboard: Phaser.Input.Keyboard.KeyboardPlugin) {
+    constructor(label : string, scene: Phaser.Scene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string>) {
         super(scene, label);
         [this.x, this.y] = [x, y];
         this.scene = scene;
@@ -15,7 +14,6 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
         this.sprite = scene.add.sprite(x, y, '');
         this.initTail(tailTextures[0], .5);
         this.initSprite(baseTextures[0], .5);
-        this.keyboard = keyboard;
         this.isMoving = false;
     }
 
@@ -49,11 +47,10 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
 
     async setMovement(event : string) {
         this.isMoving = true;
-        this.keyboard.on(event, () => {
+        this.scene.input.keyboard.on(event, () => {
             this.delay(240);
             this.isMoving = false;
         });
-
     }
 
     moveSprite(xOffset : number, yOffset : number) {
