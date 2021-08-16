@@ -42,33 +42,17 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     }
 
     update() {
-        let offset = 0.1; // Default offset.
-        this.keyboard.on('keydown-W', () => {
-            this.moveSprite(0, -offset);
-            this.setMovement();
-        })
-        this.keyboard.on('keydown-S', () => {
-            this.moveSprite(0, +offset);
-            this.setMovement();
-        })
-        this.keyboard.on('keydown-A', () => {
-            this.moveSprite(-offset, 0);
-            this.setMovement();
-        })
-        this.keyboard.on('keydown-D', () => {
-            this.moveSprite(+offset, 0);
-            this.setMovement();
-        })
         this.renderTail();
         this.sprite.setX(this.x);
         this.sprite.setY(this.y);
     }
 
-    async setMovement() {
-
+    async setMovement(event : string) {
         this.isMoving = true;
-        await this.delay(100);
-        this.isMoving = false;
+        this.keyboard.on(event, () => {
+            this.delay(240);
+            this.isMoving = false;
+        });
 
     }
 
