@@ -24,7 +24,7 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.player = new Player(this, 100, 100, this.keyboard);
-    let enemy0 = new Enemy(this, 200, 200); // Testing
+    let enemy0 = new Enemy(this.player, this, 200, 200); // Testing
     this.enemies = [enemy0]; // Testing
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
