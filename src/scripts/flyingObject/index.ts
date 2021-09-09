@@ -11,7 +11,7 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
         [this.x, this.y] = [x, y];
         this.scene = scene;
         this.tail = scene.add.sprite(x, y, '');
-        this.sprite = scene.add.sprite(x, y, '');
+        this.sprite = scene.physics.add.sprite(x, y, '');
         this.initTail(tailTextures[0], .5);
         this.initSprite(baseTextures[0], .5);
         this.isMoving = false;
@@ -24,8 +24,8 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     }
 
     private updateTailPosition() {
-        let [spriteW, hSpriteH] = [this.sprite.displayWidth, this.sprite.displayHeight / 2];
-        let tailH = this.tail.displayHeight;
+        const [spriteW, hSpriteH] = [this.sprite.displayWidth, this.sprite.displayHeight / 2];
+        const tailH = this.tail.displayHeight;
         this.tail.setX(this.sprite.x - spriteW);
         this.tail.setY(this.sprite.y + hSpriteH - tailH / 1.5);
     }
@@ -61,9 +61,9 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     }
 
     outsideScreenArea(x : number, y : number) {
-        let { width, height } = this.scene.sys.game.canvas;
-        let hSpriteW = this.sprite.displayWidth  / 2; // Half sprite dims for practical purposes
-        let hSpriteH = this.sprite.displayHeight / 2; // Half sprite dims for practical purposes
+        const { width, height } = this.scene.sys.game.canvas;
+        const hSpriteW = this.sprite.displayWidth  / 2; // Half sprite dims for practical purposes
+        const hSpriteH = this.sprite.displayHeight / 2; // Half sprite dims for practical purposes
 
         return (x <= hSpriteW) || (x >= width - hSpriteW) || (y <= hSpriteH) || (y >= height - hSpriteH);
     }

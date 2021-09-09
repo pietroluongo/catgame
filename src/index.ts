@@ -5,6 +5,6 @@ import gameScene from './scenes/Game'
 
 const catGame = new Phaser.Game(
   Object.assign(config, {
-    scene: [MainMenuScene, gameScene]
+    scene: [gameScene, MainMenuScene]
   })
 );

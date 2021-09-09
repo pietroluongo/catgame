@@ -32,7 +32,7 @@ export default class Enemy extends FlyingObject {
         let radius = euclideanDistance - upTrigger;
         let newX = -radius * cosTheta;
         let newY = radius * sinTheta;
-        console.log(this.x - newX, this.y - newY);
+        // console.log(this.x - newX, this.y - newY);
         this.moveSprite(this.x - newX, this.y - newY);
     }
 }
