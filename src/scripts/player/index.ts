@@ -2,6 +2,8 @@ import FlyingObject from '../flyingObject/index'
 import Projectile from "../projectile";
 import GameScene from "../../scenes/Game";
 
+export const maxPlayerSpeed = 250;
+
 export default class Player extends FlyingObject {
 
     keyboard : Phaser.Input.Keyboard.KeyboardPlugin;
@@ -17,20 +19,45 @@ export default class Player extends FlyingObject {
         this.screenWidth = width;
         this.sprite.debugShowVelocity = true;
         this.sprite.debugShowBody = true;
+        this.sprite.setMaxVelocity(maxPlayerSpeed, maxPlayerSpeed);
     }
 
     handleMovementKeys = () => {
         this.keyboard.on('keydown-A', () => {
-            this.sprite.setVelocityX(-150);
+            //this.sprite.setVelocityX(-maxPlayerSpeed);
+            this.sprite.setAccelerationX(-maxPlayerSpeed);
         });
         this.keyboard.on('keydown-D', () => {
-            this.sprite.setVelocityX(+150);
+            //this.sprite.setVelocityX(+maxPlayerSpeed);
+            this.sprite.setAccelerationX(maxPlayerSpeed);
+
         });
         this.keyboard.on('keydown-S', () => {
-            this.sprite.setVelocityY(+150);
+            //this.sprite.setVelocityY(+maxPlayerSpeed);
+            this.sprite.setAccelerationY(maxPlayerSpeed);
+
         });
         this.keyboard.on('keydown-W', () => {
-            this.sprite.setVelocityY(-150);
+            //this.sprite.setVelocityY(-maxPlayerSpeed);
+            this.sprite.setAccelerationY(-maxPlayerSpeed);
+        });
+        this.keyboard.on('keyup-A', () => {
+            //this.sprite.setVelocityX(-maxPlayerSpeed);
+            this.sprite.setAccelerationX(-0);
+        });
+        this.keyboard.on('keyup-D', () => {
+            //this.sprite.setVelocityX(+0);
+            this.sprite.setAccelerationX(0);
+
+        });
+        this.keyboard.on('keyup-S', () => {
+            //this.sprite.setVelocityY(+0);
+            this.sprite.setAccelerationY(0);
+
+        });
+        this.keyboard.on('keyup-W', () => {
+            //this.sprite.setVelocityY(-0);
+            this.sprite.setAccelerationY(-0);
         });
         this.keyboard.on('keydown-SPACE', () => {
             this.sprite.setDrag(3000, 3000);
@@ -60,6 +87,18 @@ export default class Player extends FlyingObject {
         this.sprite.setAngle(angle);
     }
 
+    handleCameraZoom = () => {
+        const cam = this.scene.cameras.main;
+        console.debug('x: ', this.sprite.body.velocity.x);
+        console.debug('y: ', this.sprite.body.velocity.y);
+        if(Math.abs(this.sprite.body.velocity.x) + Math.abs(this.sprite.body.velocity.y) < 10) {
+            cam.zoomTo(2, 1000);
+        }
+        else {
+            cam.zoomTo(0.5, 250);
+        }
+    }
+
     update() {
         this.x = this.sprite.x;
         this.y = this.sprite.y;
@@ -67,6 +106,8 @@ export default class Player extends FlyingObject {
         this.handleMovementKeys();
         this.handlePointer();
         this.handleShooting();
+
+        this.handleCameraZoom();
 
         super.update();
     }

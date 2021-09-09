@@ -37,6 +37,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     const bg = this.add.image(0, 0, 'background');
     bg.setScale(2.5);
+    bg.setAlpha(0.1);
     this.renderTutorial();
     this.player = new Player(this, 0, 0, this.keyboard);
     //const enemy0 = new Enemy(this.player, this, 200, 200); // Testing
@@ -44,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
     this.cameras.main.startFollow(this.player.sprite, false, 0.1, 0.1);
+    this.cameras.main.zoom = 2;
     this.projectiles = [];
   }
 

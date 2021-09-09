@@ -12,7 +12,6 @@ export default class Projectile extends Phaser.GameObjects.GameObject {
         this.scene.registerProjectile(this);
         this.sprite.enableBody(true, x, y, true, true);
         this.scene.physics.velocityFromAngle(angle, 1000, this.sprite.body.velocity)
-        console.debug(this.sprite.body.velocity)
     }
 
     update() {
