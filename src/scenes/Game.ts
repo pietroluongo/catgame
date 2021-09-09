@@ -30,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
   renderTutorial = () => {
     this.add.rectangle(-200+50, -200+50, 300, 200, 0, 1);
     this.add.text(-200, -200, 'move with WASD');
-    this.add.text(-200, -150, 'break with SPACE');
+    this.add.text(-200, -150, 'brake with SPACE');
     this.add.text(-200, -100, 'aim with MOUSE');
   }
 
