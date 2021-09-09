@@ -44,7 +44,7 @@ export default class GameScene extends Phaser.Scene {
     //this.enemies = [enemy0]; // Testing
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
-    this.cameras.main.startFollow(this.player.sprite, false, 0.1, 0.1);
+    this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = 2;
     this.projectiles = [];
   }

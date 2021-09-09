@@ -3,6 +3,7 @@ import Projectile from "../projectile";
 import GameScene from "../../scenes/Game";
 
 export const maxPlayerSpeed = 250;
+export const playerAcceleration = 500;
 
 export default class Player extends FlyingObject {
 
@@ -25,21 +26,21 @@ export default class Player extends FlyingObject {
     handleMovementKeys = () => {
         this.keyboard.on('keydown-A', () => {
             //this.sprite.setVelocityX(-maxPlayerSpeed);
-            this.sprite.setAccelerationX(-maxPlayerSpeed);
+            this.sprite.setAccelerationX(-playerAcceleration);
         });
         this.keyboard.on('keydown-D', () => {
             //this.sprite.setVelocityX(+maxPlayerSpeed);
-            this.sprite.setAccelerationX(maxPlayerSpeed);
+            this.sprite.setAccelerationX(playerAcceleration);
 
         });
         this.keyboard.on('keydown-S', () => {
             //this.sprite.setVelocityY(+maxPlayerSpeed);
-            this.sprite.setAccelerationY(maxPlayerSpeed);
+            this.sprite.setAccelerationY(playerAcceleration);
 
         });
         this.keyboard.on('keydown-W', () => {
             //this.sprite.setVelocityY(-maxPlayerSpeed);
-            this.sprite.setAccelerationY(-maxPlayerSpeed);
+            this.sprite.setAccelerationY(-playerAcceleration);
         });
         this.keyboard.on('keyup-A', () => {
             //this.sprite.setVelocityX(-maxPlayerSpeed);
@@ -89,13 +90,21 @@ export default class Player extends FlyingObject {
 
     handleCameraZoom = () => {
         const cam = this.scene.cameras.main;
-        console.debug('x: ', this.sprite.body.velocity.x);
-        console.debug('y: ', this.sprite.body.velocity.y);
-        if(Math.abs(this.sprite.body.velocity.x) + Math.abs(this.sprite.body.velocity.y) < 10) {
-            cam.zoomTo(2, 1000);
+        const camSpeedParameter = Math.abs(this.sprite.body.velocity.length());
+
+        //const camSpeedParameter = Math.abs(this.sprite.body.velocity.x) + Math.abs(this.sprite.body.velocity.y);
+        //const res = Phaser.Math.Linear(2, 0.5, camSpeedParameter);
+        //console.log(res);
+        //cam.zoom = res;
+        if(camSpeedParameter < 10) {
+            setTimeout(() => {
+                if(camSpeedParameter < 10) {
+                    cam.zoomTo(2, 1000, Phaser.Math.Easing.Quadratic.In);
+                }
+            }, 1000);
         }
         else {
-            cam.zoomTo(0.5, 250);
+            cam.zoomTo(0.5, 250, Phaser.Math.Easing.Quadratic.Out);
         }
     }
 
