@@ -17,7 +17,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('logo', 'assets/phaser3-logo.png');
+    this.load.image('background', 'assets/debugTiles.jpeg');
+
     this.load.image('catbase', 'assets/sprites/catbase.png')
     this.load.image('flyingtoast', 'assets/sprites/flyingtoast.png')
     this.load.image('rainbowtail', 'assets/sprites/rainbowtail.png')
@@ -26,33 +27,30 @@ export default class GameScene extends Phaser.Scene {
     this.keyboard = this.input.keyboard;
   }
 
+  renderTutorial = () => {
+    this.add.rectangle(-200+50, -200+50, 300, 200, 0, 1);
+    this.add.text(-200, -200, 'move with WASD');
+    this.add.text(-200, -150, 'break with SPACE');
+    this.add.text(-200, -100, 'aim with MOUSE');
+  }
+
   create() {
-    this.add.text(-100, -100, 'move with WASD');
-    this.add.text(-100, -50, 'break with SPACE');
-    this.add.text(-100, 0, 'aim with MOUSE');
-    this.player = new Player(this, 100, 100, this.keyboard);
-    let enemy0 = new Enemy(this.player, this, 200, 200); // Testing
-    this.enemies = [enemy0]; // Testing
+    const bg = this.add.image(0, 0, 'background');
+    bg.setScale(2.5);
+    this.renderTutorial();
+    this.player = new Player(this, 0, 0, this.keyboard);
+    //const enemy0 = new Enemy(this.player, this, 200, 200); // Testing
+    //this.enemies = [enemy0]; // Testing
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
-    this.cameras.main.startFollow(this.player.sprite);
+    this.cameras.main.startFollow(this.player.sprite, false, 0.1, 0.1);
     this.projectiles = [];
-
-
-    this.tweens.add({
-      targets: logo,
-      y: 350,
-      duration: 1500,
-      ease: 'Sine.inOut',
-      yoyo: true,
-      repeat: -1
-    });
   }
 
   update() {
     this.debugMenu.update();
     this.player.update();
-    this.enemies[0].update(); // Testing
+    // this.enemies[0].update(); // Testing
     // this.keyboard.on('keydown', () => {
     //   console.log('key');
     // })
