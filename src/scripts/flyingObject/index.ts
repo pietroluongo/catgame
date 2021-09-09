@@ -2,7 +2,7 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     x: number;
     y: number;
     scene: Phaser.Scene;
-    sprite: Phaser.GameObjects.Sprite;
+    sprite: Phaser.Physics.Arcade.Sprite;
     tail : Phaser.GameObjects.Sprite;
     isMoving : boolean;
 
@@ -41,8 +41,6 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
 
     update() {
         this.renderTail();
-        this.sprite.setX(this.x);
-        this.sprite.setY(this.y);
     }
 
     async setMovement(event : string) {

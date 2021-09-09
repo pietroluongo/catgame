@@ -19,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('flyingtoast', 'assets/sprites/flyingtoast.png')
     this.load.image('rainbowtail', 'assets/sprites/rainbowtail.png')
     this.load.image('rainbowtailalternate', 'assets/sprites/rainbowtailalternate.png')
+    this.cameras.main.setBackgroundColor('#0C4179');
     this.keyboard = this.input.keyboard;
   }
 
@@ -28,6 +29,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemies = [enemy0]; // Testing
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
+    this.cameras.main.startFollow(this.player.sprite);
 
 
     this.tweens.add({

@@ -10,18 +10,24 @@ export default class Player extends FlyingObject {
     }
 
     update() {
-        let offset = 0.1;
-        let keys = ['W', 'S', 'A', 'D'];
-        let movs = [[0, -offset],
-                    [0, +offset],
-                    [-offset, 0],
-                    [+offset, 0]];
-        for (let i = 0; i < keys.length; i++) {
-            this.keyboard.on('keydown-' + keys[i], () => {
-                this.moveSprite(movs[i][0], movs[i][1]);
-                this.setMovement('keyup-' + keys[i]);
-            });
-        }
+        this.sprite.debugShowVelocity = true;
+        this.keyboard.on('keydown-A', () => {
+            this.sprite.setVelocityX(-150);
+        });
+        this.keyboard.on('keydown-D', () => {
+            this.sprite.setVelocityX(+150);
+        });
+        this.keyboard.on('keydown-S', () => {
+            this.sprite.setVelocityY(+150);
+        });
+        this.keyboard.on('keydown-W', () => {
+            this.sprite.setVelocityY(-150);
+        });
+        this.keyboard.on('keydown-SPACE', () => {
+            this.sprite.setDrag(3000, 3000);
+        });
+
+        this.sprite.setDrag(50, 50);
         super.update();
     }
 
