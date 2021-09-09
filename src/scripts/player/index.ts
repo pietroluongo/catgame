@@ -12,12 +12,11 @@ export default class Player extends FlyingObject {
         const {width, height} = this.scene.sys.game.canvas;
         this.screenHeight = height;
         this.screenWidth = width;
+        this.sprite.debugShowVelocity = true;
+        this.sprite.debugShowBody = true;
     }
 
-    update() {
-        this.x = this.sprite.x;
-        this.y = this.sprite.y;
-        this.sprite.debugShowVelocity = true;
+    handleMovementKeys = () => {
         this.keyboard.on('keydown-A', () => {
             this.sprite.setVelocityX(-150);
         });
@@ -33,12 +32,23 @@ export default class Player extends FlyingObject {
         this.keyboard.on('keydown-SPACE', () => {
             this.sprite.setDrag(3000, 3000);
         });
+        this.sprite.setDrag(50, 50);
+
+    }
+
+    handlePointer = () => {
         const pointer = this.scene.input.activePointer;
         const angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(this.screenWidth/2, this.screenHeight/2, pointer.x, pointer.y);
-        console.debug(angle);
         this.sprite.setAngle(angle);
+    }
 
-        this.sprite.setDrag(50, 50);
+    update() {
+        this.x = this.sprite.x;
+        this.y = this.sprite.y;
+
+        this.handleMovementKeys();
+        this.handlePointer();
+
         super.update();
     }
 
