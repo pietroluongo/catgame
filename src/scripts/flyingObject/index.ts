@@ -1,12 +1,15 @@
+import GameScene from "../../scenes/Game";
+import Projectile from "../projectile";
+
 export default class FlyingObject extends Phaser.GameObjects.GameObject {
     x: number;
     y: number;
-    scene: Phaser.Scene;
+    scene: GameScene;
     sprite: Phaser.Physics.Arcade.Sprite;
     tail : Phaser.GameObjects.Sprite;
     isMoving : boolean;
 
-    constructor(label : string, scene: Phaser.Scene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string>) {
+    constructor(label : string, scene: GameScene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string>) {
         super(scene, label);
         [this.x, this.y] = [x, y];
         this.scene = scene;

@@ -49,6 +49,7 @@ export class DebugMenu {
             'angle: ' + this.scene.player.sprite.angle,
             'player x: ' + this.scene.player.x,
             'player y: ' + this.scene.player.y,
+            'projectile count: ' + this.scene.projectiles.length,
             'gamestate: ' + 'main game loop'
         ])
     }
