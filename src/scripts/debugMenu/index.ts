@@ -40,6 +40,7 @@ export class DebugMenu {
         this.debugText!.setText([
             'mouse x: ' + pointer.x,
             'mouse y: ' + pointer.y,
+            'angle: ' + '',
             'gamestate: ' + 'main game loop'
         ])
     }

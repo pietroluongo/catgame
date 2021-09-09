@@ -24,6 +24,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.add.text(-100, -100, 'move with WASD');
+    this.add.text(-100, -50, 'break with SPACE');
+    this.add.text(-100, 0, 'aim with MOUSE');
     this.player = new Player(this, 100, 100, this.keyboard);
     let enemy0 = new Enemy(this.player, this, 200, 200); // Testing
     this.enemies = [enemy0]; // Testing
