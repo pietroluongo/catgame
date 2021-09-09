@@ -36,6 +36,12 @@ export default class Player extends FlyingObject {
 
     }
 
+    handleShooting = () => {
+        // this.input.on('pointerup', () => {
+        //     console.debug('pointerup!');
+        // })
+    }
+
     handlePointer = () => {
         const pointer = this.scene.input.activePointer;
         const angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(this.screenWidth/2, this.screenHeight/2, pointer.x, pointer.y);
@@ -48,6 +54,7 @@ export default class Player extends FlyingObject {
 
         this.handleMovementKeys();
         this.handlePointer();
+        this.handleShooting();
 
         super.update();
     }
