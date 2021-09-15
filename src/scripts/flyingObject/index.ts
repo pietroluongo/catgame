@@ -6,16 +6,21 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     y: number;
     scene: GameScene;
     sprite: Phaser.Physics.Arcade.Sprite;
+    screenWidth: integer;
+    screenHeight: integer;
     tail : Phaser.GameObjects.Sprite;
     isMoving : boolean;
 
-    constructor(label : string, scene: GameScene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string>) {
+    constructor(label : string, scene: GameScene, x: number, y: number, baseTextures : Array<string>, tailTextures : Array<string> | boolean) {
         super(scene, label);
         [this.x, this.y] = [x, y];
         this.scene = scene;
+        const {width, height} = this.scene.sys.game.canvas;
+        this.screenHeight = height;
+        this.screenWidth = width;
         this.tail = scene.add.sprite(x, y, '');
         this.sprite = scene.physics.add.sprite(x, y, '');
-        this.initTail(tailTextures[0], .5);
+        //this.initTail(tailTextures[0], .5);
         this.initSprite(baseTextures[0], .5);
         this.isMoving = false;
     }

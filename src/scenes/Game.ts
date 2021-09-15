@@ -40,8 +40,12 @@ export default class GameScene extends Phaser.Scene {
     bg.setAlpha(0.1);
     this.renderTutorial();
     this.player = new Player(this, 0, 0, this.keyboard);
-    //const enemy0 = new Enemy(this.player, this, 200, 200); // Testing
-    //this.enemies = [enemy0]; // Testing
+
+    // Enemies testing:
+    const enemy0 = new Enemy(this.player, this, 200, 200); // Testing
+    this.enemies = [enemy0]; // Testing
+    
+    
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
@@ -52,10 +56,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.debugMenu.update();
     this.player.update();
-    // this.enemies[0].update(); // Testing
-    // this.keyboard.on('keydown', () => {
-    //   console.log('key');
-    // })
+    this.enemies[0].update(); // Testing
   }
 
   registerProjectile = (proj: Projectile) => {

@@ -8,17 +8,12 @@ export const playerAcceleration = 500;
 export default class Player extends FlyingObject {
 
     keyboard : Phaser.Input.Keyboard.KeyboardPlugin;
-    screenWidth: integer;
-    screenHeight: integer;
     hasFiredSinceLastClick: boolean;
     canBrake: boolean;
 
     constructor(scene: GameScene, x: number, y: number, keyboard: Phaser.Input.Keyboard.KeyboardPlugin) {
         super('player', scene, x, y, ['flyingtoast'], ['rainbowtail', 'rainbowtailalternate']);
         this.keyboard = keyboard;
-        const {width, height} = this.scene.sys.game.canvas;
-        this.screenHeight = height;
-        this.screenWidth = width;
         this.sprite.debugShowVelocity = true;
         this.sprite.debugShowBody = true;
         this.sprite.setMaxVelocity(maxPlayerSpeed, maxPlayerSpeed);

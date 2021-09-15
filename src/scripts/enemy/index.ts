@@ -1,38 +1,61 @@
 import FlyingObject from '../flyingObject/index'
+import GameScene from '../../scenes/Game'
+import Projectile from "../projectile";
 
 export default class Enemy extends FlyingObject {
     player : FlyingObject;
-    constructor(player : FlyingObject, scene: Phaser.Scene, x: number, y: number) {
-        super('player', scene, x, y, ['catbase'], ['rainbowtail', 'rainbowtailalternate']);
+    maxAcceleration : number;
+    minimumDistanceToShoot : number;
+    updateCounter : integer;
+    counterLimitToShoot : integer;
+
+    constructor(player : FlyingObject, scene: GameScene, x: number, y: number) {
+        super('player', scene, x, y, ['catbase'], false);
         this.player = player;
+        this.maxAcceleration = 200; // This is arbitrary
+        this.minimumDistanceToShoot = 250; // This is arbitrary
+        this.updateCounter = 0;
+        this.counterLimitToShoot = 20; // This is arbitrary
     }
 
     update() {
-        // The enemy will always try to keep a certain distance from the player
-        const upTrigger = 1;
-        const downTrigger = 0;
-        let dx = this.x - this.player.x;
-        let dy = this.y - this.player.y;
-        let euclideanDistance = (dx**2 + dy**2)**(1/2);
 
-        if (euclideanDistance > upTrigger)
-            this.goNearPlayer(dx, dy, euclideanDistance, upTrigger);
-        //else if (euclideanDistance < downTrigger)
-        //    this.goAwayFromPlayer();
+        this.x = this.sprite.x;
+        this.y = this.sprite.y;
 
-        this.sprite.setX(this.x);
-        this.sprite.setY(this.y);
+        // The enemy will always try to reach the player
+        this.handleMovement();
+        super.update();
     }
 
-    goNearPlayer(dx : number, dy : number, euclideanDistance : number, upTrigger : number) {
-        let cosTheta = dy === 0 ? 0 : dx / dy;
-        cosTheta = cosTheta % 1;
-        let sinTheta = euclideanDistance === 0 ? 0 : dy / euclideanDistance;
-        sinTheta = sinTheta % 1;
-        let radius = euclideanDistance - upTrigger;
-        let newX = -radius * cosTheta;
-        let newY = radius * sinTheta;
-        // console.log(this.x - newX, this.y - newY);
-        this.moveSprite(this.x - newX, this.y - newY);
+    handleMovement = () => {
+        var angleToPlayer = Phaser.Math.Angle.Between(this.x, this.y, this.player.x, this.player.y);
+        var distanceToPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y);
+
+        var a /* acceleration */ = (
+            distanceToPlayer > this.maxAcceleration ? this.maxAcceleration : distanceToPlayer
+        );
+
+        var dx = a * Math.cos(angleToPlayer);
+        var dy = a * Math.sin(angleToPlayer);
+
+        const changeRate = 1;
+
+        this.shootPlayer(distanceToPlayer, angleToPlayer);
+        this.sprite.setAcceleration(dx * changeRate, dy * changeRate);
+    }
+
+    shootPlayer = (distanceToPlayer : number, angleToPlayer : number) => {
+
+        if (this.updateCounter < this.counterLimitToShoot) {
+            this.updateCounter += 1;
+            return;
+        }
+        if (distanceToPlayer < this.minimumDistanceToShoot) {
+            const missile = new Projectile(this.scene, 'playerMissile', this.sprite.x, this.sprite.y, angleToPlayer);
+            this.updateCounter = 0;
+        }
+        
+
     }
 }
