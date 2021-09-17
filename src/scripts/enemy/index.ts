@@ -12,10 +12,10 @@ export default class Enemy extends FlyingObject {
     constructor(player : FlyingObject, scene: GameScene, x: number, y: number) {
         super('player', scene, x, y, ['catbase'], false);
         this.player = player;
-        this.maxAcceleration = 200; // This is arbitrary
-        this.minimumDistanceToShoot = 250; // This is arbitrary
+        this.maxAcceleration = 100; // This is arbitrary
+        this.minimumDistanceToShoot = 500; // This is arbitrary
         this.updateCounter = 0;
-        this.counterLimitToShoot = 20; // This is arbitrary
+        this.counterLimitToShoot = 100; // This is arbitrary
     }
 
     update() {
@@ -52,7 +52,8 @@ export default class Enemy extends FlyingObject {
             return;
         }
         if (distanceToPlayer < this.minimumDistanceToShoot) {
-            const missile = new Projectile(this.scene, 'playerMissile', this.sprite.x, this.sprite.y, angleToPlayer);
+            const degreeAngle = angleToPlayer * 180 / Math.PI;
+            const missile = new Projectile(this.scene, 'enemyMissile', this.sprite.x, this.sprite.y, degreeAngle);
             this.updateCounter = 0;
         }
         

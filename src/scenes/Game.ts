@@ -34,6 +34,10 @@ export default class GameScene extends Phaser.Scene {
     this.add.text(-200, -100, 'aim with MOUSE');
   }
 
+  randomSignal = () => Math.random() > 0.5 ? -1 : 1;
+  randomUnsigned = (min : integer, max : integer) => min + Math.floor(Math.random() * (max - min));
+  randomInt = (min : integer, max : integer) => this.randomSignal() * this.randomUnsigned(min, max);
+
   create() {
     const bg = this.add.image(0, 0, 'background');
     bg.setScale(2.5);
@@ -42,9 +46,10 @@ export default class GameScene extends Phaser.Scene {
     this.player = new Player(this, 0, 0, this.keyboard);
 
     // Enemies testing:
-    const enemy0 = new Enemy(this.player, this, 200, 200); // Testing
-    this.enemies = [enemy0]; // Testing
-    
+    this.enemies = new Array<Enemy>();
+    for (var i = 0; i < 5; i++) {
+      this.enemies.push(new Enemy(this.player, this, this.randomInt(100, 500), this.randomInt(100, 500)));
+    }
     
     const logo = this.add.image(400, 70, 'logo');
     this.debugMenu = new DebugMenu(this);
@@ -56,13 +61,14 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.debugMenu.update();
     this.player.update();
-    this.enemies[0].update(); // Testing
+    this.enemies.forEach((e, i, es) => e.update());
   }
 
   registerProjectile = (proj: Projectile) => {
     if(this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();
-      elem.destroy();
+      if (elem)
+        elem.destroy();
     }
     this.projectiles.push(proj);
 
