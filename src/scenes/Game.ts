@@ -17,7 +17,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/debugTiles.jpeg");
+    this.load.image("background", "assets/debugTiles.png");
 
     this.load.image("catbase", "assets/sprites/catbase.png");
     this.load.image("flyingtoast", "assets/sprites/flyingtoast.png");
@@ -44,9 +44,9 @@ export default class GameScene extends Phaser.Scene {
     this.randomSignal() * this.randomUnsigned(min, max);
 
   create() {
-    const bg = this.add.image(0, 0, "background");
+    const bg = this.add.image(0, 0, "background").setOrigin(0.5);
     bg.setScale(5);
-    bg.setAlpha(0.1);
+    bg.setAlpha(0.5);
     this.renderTutorial();
     this.player = new Player(this, 0, 0, this.keyboard);
 
