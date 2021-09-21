@@ -80,6 +80,11 @@ export default class GameScene extends Phaser.Scene {
         this.player.applyDamage(2);
       });
     } else {
+      this.enemies.map((enemy) => {
+        this.physics.add.overlap(proj.sprite, enemy.sprite, () => {
+          enemy.applyDamage(100);
+        });
+      });
       // add collision to enemies
       // this.physics.add.overlap(proj.sprite, this.player.sprite, () => {
       //   this.player.applyDamage(2);

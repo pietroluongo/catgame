@@ -16,16 +16,35 @@ export default class Enemy extends FlyingObject {
     this.minimumDistanceToShoot = 500; // This is arbitrary
     this.updateCounter = 0;
     this.counterLimitToShoot = 100; // This is arbitrary
+    this.health = 100;
+    this.canMove = true;
+    this.isAlive = true;
   }
 
   update() {
     this.x = this.sprite.x;
     this.y = this.sprite.y;
+    this.updateState();
 
     // The enemy will always try to reach the player
-    this.handleMovement();
+    if (this.canMove) {
+      this.handleMovement();
+    }
     super.update();
   }
+
+  die = () => {
+    this.sprite.setVelocity(0, 0);
+    this.sprite.setAcceleration(0, 0);
+    this.scene.tweens.add({
+      targets: this.sprite,
+      duration: 1000,
+      alpha: 0,
+    });
+    setTimeout(() => {
+      this.sprite.destroy();
+    }, 5000);
+  };
 
   handleMovement = () => {
     var angleToPlayer = Phaser.Math.Angle.Between(
@@ -53,6 +72,12 @@ export default class Enemy extends FlyingObject {
 
     this.shootPlayer(distanceToPlayer, angleToPlayer);
     this.sprite.setAcceleration(dx * changeRate, dy * changeRate);
+  };
+
+  updateState = () => {
+    if (!this.isAlive) {
+      this.canMove = false;
+    }
   };
 
   shootPlayer = (distanceToPlayer: number, angleToPlayer: number) => {

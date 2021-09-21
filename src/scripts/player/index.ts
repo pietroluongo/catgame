@@ -9,9 +9,6 @@ export default class Player extends FlyingObject {
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin;
   hasFiredSinceLastClick: boolean;
   canBrake: boolean;
-  health: number;
-  isAlive: boolean;
-  canMove: boolean;
   canShoot: boolean;
 
   constructor(
@@ -137,13 +134,14 @@ export default class Player extends FlyingObject {
     }
   };
 
-  applyDamage = (dmg: number) => {
-    this.health -= dmg;
-    if (this.health < 0) this.health = 0;
+  die = () => {
+    console.debug("i dead");
+    this.sprite.setVelocity(0, 0);
+    this.sprite.setAcceleration(0, 0);
   };
 
   handlePlayerState = () => {
-    if (this.health <= 0) {
+    if (this.health! <= 0) {
       this.canMove = false;
       this.isAlive = false;
     }
