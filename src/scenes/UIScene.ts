@@ -36,6 +36,32 @@ export default class UIScene extends Phaser.Scene {
   };
 
   update() {
+    if (this.mainScene.player && !this.mainScene.player.isAlive) {
+      const txt = this.add
+        .text(this.screenWidth! / 2, this.screenHeight! / 2, "MORREU", {
+          fontSize: "10rem",
+          color: "red",
+          fontStyle: "bold",
+        })
+        .setOrigin(0.5)
+        .setAlpha(0);
+
+      //   const restartTxt = this.add
+      //     .text(
+      //       this.screenWidth! / 2,
+      //       this.screenHeight! / 2 + this.screenHeight! / 6,
+      //       "RECOMEÇAR",
+      //       { fontSize: "3rem" }
+      //     )
+      //     .setInteractive()
+      //     .setOrigin(0.5)
+      //     .setAlpha(0);
+      this.tweens.add({
+        targets: [txt],
+        alpha: 1,
+        duration: 10000,
+      });
+    }
     if (this.mainScene.scene.isActive()) {
       this.debugMenu.update();
       this.drawHealth();
