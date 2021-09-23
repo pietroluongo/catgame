@@ -11,10 +11,12 @@ export default class GameScene extends Phaser.Scene {
   enemies!: Array<Enemy>;
   keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
   projectiles: Array<Projectile>;
+  barriers: Array<BarrierBlock>;
 
   constructor() {
     super("GameScene");
     this.projectiles = [];
+    this.barriers = [];
   }
 
   preload() {
@@ -65,8 +67,16 @@ export default class GameScene extends Phaser.Scene {
     }
 
     // Adding one barrier:
-    const barrier = new BarrierBlock(this, "block", "rainbowtail", 200, 200);
-
+    const barrier = new BarrierBlock(
+      this,
+      "block",
+      "rainbowtail",
+      200,
+      200,
+      200,
+      200
+    );
+    this.barriers.push(barrier);
     const logo = this.add.image(400, 70, "logo");
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
@@ -98,6 +108,9 @@ export default class GameScene extends Phaser.Scene {
         enemy.applyDamage(100);
       });
     });
+    this.barriers.map((bar) =>
+      this.physics.add.collider(proj.sprite, bar.sprite, () => proj.destroy())
+    );
 
     if (this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();

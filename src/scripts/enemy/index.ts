@@ -21,6 +21,7 @@ export default class Enemy extends FlyingObject {
     this.canMove = true;
     this.isAlive = true;
     this.acceleration = 0;
+    this.sprite.body.setSize(75);
   }
 
   update() {

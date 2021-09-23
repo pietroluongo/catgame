@@ -35,6 +35,7 @@ export default class Player extends FlyingObject {
     this.sprite.setMaxVelocity(maxPlayerSpeed, maxPlayerSpeed);
     this.hasFiredSinceLastClick = false;
     this.canBrake = true;
+    this.sprite.body.setSize(100, 100);
   }
 
   handleMovementKeys = () => {
