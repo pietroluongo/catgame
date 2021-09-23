@@ -90,15 +90,6 @@ export default class GameScene extends Phaser.Scene {
       10,
       5100 * 2
     );
-    const firstBarrier = new BarrierBlock(
-      this,
-      "block",
-      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
-      0,
-      3776,
-      5400,
-      64
-    );
     const dbgBarrier = new BarrierBlock(
       this,
       "block",
@@ -155,9 +146,8 @@ export default class GameScene extends Phaser.Scene {
         enemy.applyDamage(100);
       });
     });
-    // this.barriers.map((bar) =>
-    //   this.physics.add.collider(proj.sprite, bar.sprites, () => proj.destroy())
-    // );
+
+    this.physics.add.collider(proj.sprite, this.barriers, () => proj.destroy());
 
     if (this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();
