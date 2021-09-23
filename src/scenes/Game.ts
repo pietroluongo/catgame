@@ -2,6 +2,7 @@ import Phaser, { Cameras, Scene, Scenes } from "phaser";
 import Player from "../scripts/player";
 import Enemy from "../scripts/enemy";
 import Projectile, { ProjectileType } from "../scripts/projectile";
+import { BarrierBlock } from "../scripts/barrier";
 
 export const INITIAL_CAMERA_ZOOM = 2.5;
 
@@ -63,6 +64,9 @@ export default class GameScene extends Phaser.Scene {
       );
     }
 
+    // Adding one barrier:
+    const barrier = new BarrierBlock(this, "block", "rainbowtail", 200, 200);
+
     const logo = this.add.image(400, 70, "logo");
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
@@ -81,15 +85,22 @@ export default class GameScene extends Phaser.Scene {
       });
     } else {
       this.enemies.map((enemy) => {
-        this.physics.add.overlap(proj.sprite, enemy.sprite, () => {
+        this.physics.add.overlap(enemy.sprite, proj.sprite, () => {
           enemy.applyDamage(100);
         });
       });
-      // add collision to enemies
-      // this.physics.add.overlap(proj.sprite, this.player.sprite, () => {
-      //   this.player.applyDamage(2);
-      // });
     }
+
+    // Colliding with enemies
+    this.enemies.map((enemy) => {
+      this.physics.add.overlap(enemy.sprite, this.player.sprite, () => {
+        //this.player.applyDamage(25);
+        //enemy.applyDamage(25);
+        
+        // Changing direction
+        enemy.toggleCollision();
+      })
+    })
 
     if (this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();

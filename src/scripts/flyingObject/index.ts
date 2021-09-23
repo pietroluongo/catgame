@@ -68,6 +68,7 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
   private initSprite(texture: string, scale: number) {
     this.sprite.setTexture(texture);
     this.sprite.setScale(scale);
+    this.sprite.setDepth(1);
   }
 
   delay(ms: number) {
@@ -113,5 +114,9 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
       this.tail.alpha = 1;
     }
     this.updateTailPosition();
+  }
+
+  setAcceleration(x : number, y : number) {
+    
   }
 }

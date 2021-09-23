@@ -8,6 +8,8 @@ export default class Enemy extends FlyingObject {
   minimumDistanceToShoot: number;
   updateCounter: integer;
   counterLimitToShoot: integer;
+  hasCollided : boolean;
+  acceleration : number;
 
   constructor(player: FlyingObject, scene: GameScene, x: number, y: number) {
     super("player", scene, x, y, ["catbase"], false);
@@ -19,6 +21,8 @@ export default class Enemy extends FlyingObject {
     this.health = 100;
     this.canMove = true;
     this.isAlive = true;
+    this.hasCollided = false;
+    this.acceleration = 0;
   }
 
   update() {
@@ -27,8 +31,13 @@ export default class Enemy extends FlyingObject {
     this.updateState();
 
     // The enemy will always try to reach the player
-    if (this.canMove) {
+    if (this.canMove && !(this.hasCollided)) {
       this.handleMovement();
+    } else if (this.hasCollided) {
+      this.handleCollision();
+      setTimeout(() => {
+        this.toggleCollision();
+      }, 5000);
     }
     super.update();
   }
@@ -43,7 +52,7 @@ export default class Enemy extends FlyingObject {
     });
     setTimeout(() => {
       this.sprite.destroy();
-    }, 5000);
+    }, 1);
   };
 
   handleMovement = () => {
@@ -65,13 +74,32 @@ export default class Enemy extends FlyingObject {
         ? this.maxAcceleration
         : distanceToPlayer;
 
+    this.acceleration = a;
+
     var dx = a * Math.cos(angleToPlayer);
     var dy = a * Math.sin(angleToPlayer);
 
-    const changeRate = 1;
-
     this.shootPlayer(distanceToPlayer, angleToPlayer);
-    this.sprite.setAcceleration(dx * changeRate, dy * changeRate);
+    this.sprite.setAcceleration(dx, dy);
+  };
+
+  handleCollision = () => {
+    var angleToPlayer = Phaser.Math.Angle.Between(
+      this.x,
+      this.y,
+      this.player.x,
+      this.player.y
+    );
+    var movementAngle = -angleToPlayer;
+    var [dx, dy] = [this.acceleration * Math.cos(movementAngle) * 0.5,
+                    this.acceleration * Math.sin(movementAngle) * 0.5];
+
+    this.sprite.setAcceleration(dx, dy);
+    this.die();
+  }
+
+  toggleCollision = () => {
+    this.hasCollided = !this.hasCollided;
   };
 
   updateState = () => {
