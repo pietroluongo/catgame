@@ -3,8 +3,11 @@ import Player from "../scripts/player";
 import Enemy from "../scripts/enemy";
 import Projectile, { ProjectileType } from "../scripts/projectile";
 import { BarrierBlock } from "../scripts/barrier";
+import getMapData from "../scripts/map";
 
 export const INITIAL_CAMERA_ZOOM = 2.5;
+
+const CENTER_COORDS = [5100, 5100];
 
 export default class GameScene extends Phaser.Scene {
   player!: Player;
@@ -56,11 +59,11 @@ export default class GameScene extends Phaser.Scene {
       "sprite"
     );
 
-    const bg = this.add.image(0, 0, "background").setOrigin(0.5);
+    const bg = this.add.image(0, 0, "background").setOrigin(0);
     bg.setScale(5);
     bg.setAlpha(0.5);
     this.renderTutorial();
-    this.player = new Player(this, 0, 0, this.keyboard);
+    this.player = new Player(this, 5100, 5100, this.keyboard);
 
     // Enemies testing:
     this.enemies = new Array<Enemy>();
@@ -103,6 +106,21 @@ export default class GameScene extends Phaser.Scene {
       200,
       200
     );
+
+    const mapData = getMapData().map((block) =>
+      this.barriers.push(
+        new BarrierBlock(
+          this,
+          "block",
+          { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
+          block.x,
+          block.y,
+          block.width,
+          block.height
+        )
+      )
+    );
+
     this.barriers.push(barrier);
     const logo = this.add.image(400, 70, "logo");
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
