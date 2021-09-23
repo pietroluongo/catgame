@@ -12,6 +12,7 @@ export default class GameScene extends Phaser.Scene {
   keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
   projectiles: Array<Projectile>;
   barriers: Array<BarrierBlock>;
+  barrierParentObject?: Phaser.GameObjects.GameObject;
 
   constructor() {
     super("GameScene");
@@ -29,6 +30,9 @@ export default class GameScene extends Phaser.Scene {
       "rainbowtailalternate",
       "assets/sprites/rainbowtailalternate.png"
     );
+    this.load.image("cakeMid", "assets/sprites/wall/Tile_02.png");
+    this.load.image("cakeLeft", "assets/sprites/wall/Tile_01.png");
+    this.load.image("cakeCenter", "assets/sprites/wall/Tile_12.png");
     this.cameras.main.setBackgroundColor("#0C4179");
     this.keyboard = this.input.keyboard;
   }
@@ -47,6 +51,11 @@ export default class GameScene extends Phaser.Scene {
     this.randomSignal() * this.randomUnsigned(min, max);
 
   create() {
+    this.barrierParentObject = new Phaser.GameObjects.GameObject(
+      this,
+      "sprite"
+    );
+
     const bg = this.add.image(0, 0, "background").setOrigin(0.5);
     bg.setScale(5);
     bg.setAlpha(0.5);
@@ -55,7 +64,7 @@ export default class GameScene extends Phaser.Scene {
 
     // Enemies testing:
     this.enemies = new Array<Enemy>();
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 0; i++) {
       this.enemies.push(
         new Enemy(
           this.player,
@@ -70,7 +79,16 @@ export default class GameScene extends Phaser.Scene {
     const barrier = new BarrierBlock(
       this,
       "block",
-      "rainbowtail",
+      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
+      -5100,
+      -5100,
+      10,
+      5100 * 2
+    );
+    const dbgBarrier = new BarrierBlock(
+      this,
+      "block",
+      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
       200,
       200,
       200,
@@ -108,9 +126,9 @@ export default class GameScene extends Phaser.Scene {
         enemy.applyDamage(100);
       });
     });
-    this.barriers.map((bar) =>
-      this.physics.add.collider(proj.sprite, bar.sprite, () => proj.destroy())
-    );
+    // this.barriers.map((bar) =>
+    //   this.physics.add.collider(proj.sprite, bar.sprites, () => proj.destroy())
+    // );
 
     if (this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();
