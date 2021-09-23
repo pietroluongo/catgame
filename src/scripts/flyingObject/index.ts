@@ -45,7 +45,7 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     }
   };
 
-  private die = () => {
+  die = () => {
     // to be overwritten
   };
 
@@ -116,7 +116,5 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
     this.updateTailPosition();
   }
 
-  setAcceleration(x : number, y : number) {
-    
-  }
+  setAcceleration(x: number, y: number) {}
 }

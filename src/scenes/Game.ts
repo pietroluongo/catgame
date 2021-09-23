@@ -93,14 +93,11 @@ export default class GameScene extends Phaser.Scene {
 
     // Colliding with enemies
     this.enemies.map((enemy) => {
-      this.physics.add.overlap(enemy.sprite, this.player.sprite, () => {
-        //this.player.applyDamage(25);
-        //enemy.applyDamage(25);
-        
-        // Changing direction
-        enemy.toggleCollision();
-      })
-    })
+      this.physics.add.collider(enemy.sprite, this.player.sprite, () => {
+        if (enemy.isAlive) this.player.applyDamage(5);
+        enemy.applyDamage(100);
+      });
+    });
 
     if (this.projectiles.length >= 30) {
       const elem = this.projectiles.shift();
