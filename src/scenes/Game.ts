@@ -85,6 +85,15 @@ export default class GameScene extends Phaser.Scene {
       10,
       5100 * 2
     );
+    const firstBarrier = new BarrierBlock(
+      this,
+      "block",
+      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
+      0,
+      3776,
+      5400,
+      64
+    );
     const dbgBarrier = new BarrierBlock(
       this,
       "block",

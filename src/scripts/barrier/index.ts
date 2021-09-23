@@ -9,27 +9,23 @@ interface SpriteList {
   corner: string;
 }
 
-export class BarrierBlock extends Phaser.Physics.Arcade.StaticBody {
+export class BarrierBlock extends Phaser.Physics.Arcade.Sprite {
   width: integer;
   height: integer;
   scene: GameScene;
   x: number;
   y: number;
-  body: Phaser.Physics.Arcade.StaticBody;
   sprites: SpriteList;
+  spriteCount: { x: number; y: number };
 
   private buildTiles = () => {
     // FIXME: This is dumb, almost certainly there's a better way to do this!
-    const spriteCount = [
-      Math.ceil(this.width / SPRITE_SIZE_IN_PIXELS),
-      Math.ceil(this.height / SPRITE_SIZE_IN_PIXELS),
-    ];
+
     let i, j;
-    const endX = spriteCount[0] - 1;
-    const endY = spriteCount[1] - 1;
-    for (i = 0; i < spriteCount[0]; i++) {
-      for (j = 0; j < spriteCount[1]; j++) {
-        console.debug(i, j);
+    const endX = this.spriteCount.x - 1;
+    const endY = this.spriteCount.y - 1;
+    for (i = 0; i < this.spriteCount.x; i++) {
+      for (j = 0; j < this.spriteCount.y; j++) {
         if (i === 0 && j === 0) {
           this.scene.add.sprite(this.x, this.y, this.sprites.corner);
         } else if (i === endX && j === endY) {
@@ -112,36 +108,29 @@ export class BarrierBlock extends Phaser.Physics.Arcade.StaticBody {
     w: number,
     h: number
   ) {
-    super(scene.physics.world, scene.barrierParentObject!);
+    // super(scene.physics.world, scene.barrierParentObject!);
+    super(scene, x, y, "");
+
     this.scene = scene;
     this.sprites = sprites;
-    this.body = new Phaser.Physics.Arcade.StaticBody(
-      this.world,
-      this.gameObject
-    );
-    this.setSize(300, 300);
-    this.debugShowBody = true;
     [this.x, this.y] = [x, y];
     this.width = w < MIN_SIZE ? MIN_SIZE : w;
     this.height = h < MIN_SIZE ? MIN_SIZE : h;
+    const spriteCount = [
+      Math.ceil(this.width / SPRITE_SIZE_IN_PIXELS),
+      Math.ceil(this.height / SPRITE_SIZE_IN_PIXELS),
+    ];
+    this.spriteCount = { x: 0, y: 0 };
+    [this.spriteCount.x, this.spriteCount.y] = spriteCount;
     this.buildTiles();
-
-    // scene.add.sprite(x, y, sprites.inside);
-    // const a = scene.physics.add
-    //   .staticSprite(x, y, label + "BarrierSprite")
-    //   .setScale(2, 2);
-    // scene.physics.add.collider(a, scene.player.sprite);
-    // a.setSize(300, 300);
-    //this.sprite.setTexture(sprite);
-    //this.sprite.setScale(
-    //this.width / this.sprite.width,
-    //this.height / this.sprite.height
-    //);
-    //this.sprite.setImmovable();
-    // this.scene.physics.add.collider(this.sprites, scene.player.sprite, () => {
-    //   console.debug("COLLIDED");
-    // });
+    this.scene.physics.add.existing(this, true);
+    scene.physics.add.collider(this, scene.player.sprite);
+    this.body.setSize(
+      this.spriteCount.x * SPRITE_SIZE_IN_PIXELS,
+      this.spriteCount.y * SPRITE_SIZE_IN_PIXELS
+    );
+    this.body.setOffset(0, 0);
   }
-
+  create() {}
   update() {}
 }
