@@ -5,7 +5,7 @@ import Projectile, { ProjectileType } from "../scripts/projectile";
 import { BarrierBlock } from "../scripts/barrier";
 import getMapData from "../scripts/map";
 
-export const INITIAL_CAMERA_ZOOM = 2.5;
+export const INITIAL_CAMERA_ZOOM = 0.1;
 
 const CENTER_COORDS = [5100, 5100];
 
@@ -25,6 +25,8 @@ export default class GameScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "assets/debugTiles.png");
+
+    this.load.text("mapData", "assets/catMap.svg");
 
     this.load.image("catbase", "assets/sprites/catbase.png");
     this.load.image("flyingtoast", "assets/sprites/flyingtoast.png");
@@ -107,7 +109,7 @@ export default class GameScene extends Phaser.Scene {
       200
     );
 
-    const mapData = getMapData().map((block) =>
+    const mapData = getMapData(this.cache.text.get("mapData")).map((block) =>
       this.barriers.push(
         new BarrierBlock(
           this,
