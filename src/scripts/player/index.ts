@@ -93,7 +93,7 @@ export default class Player extends FlyingObject {
         this.hasFiredSinceLastClick = true;
         const projectile = new Projectile(
           this.scene,
-          "playerMissile",
+          "powercookie",
           ProjectileType.player,
           this.sprite.x,
           this.sprite.y,

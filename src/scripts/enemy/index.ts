@@ -98,7 +98,7 @@ export default class Enemy extends FlyingObject {
       const degreeAngle = (angleToPlayer * 180) / Math.PI;
       const missile = new Projectile(
         this.scene,
-        "enemyMissile",
+        "powercookie",
         ProjectileType.enemy,
         this.sprite.x,
         this.sprite.y,

@@ -24,7 +24,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/debugTiles.png");
+    this.load.image("background", "assets/backgroundSpace.png");
 
     this.load.text("mapData", "assets/catMap.svg");
 
@@ -35,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
       "rainbowtailalternate",
       "assets/sprites/rainbowtailalternate.png"
     );
+    this.load.image("powercookie", "assets/sprites/powercookie.png");
     this.load.image("cakeMid", "assets/sprites/wall/Tile_02.png");
     this.load.image("cakeLeft", "assets/sprites/wall/Tile_01.png");
     this.load.image("cakeCenter", "assets/sprites/wall/Tile_12.png");
@@ -69,13 +70,13 @@ export default class GameScene extends Phaser.Scene {
 
     // Enemies testing:
     this.enemies = new Array<Enemy>();
-    for (var i = 0; i < 0; i++) {
+    for (var i = 0; i < 100; i++) {
       this.enemies.push(
         new Enemy(
           this.player,
           this,
-          this.randomInt(100, 500),
-          this.randomInt(100, 500)
+          this.randomInt(0, 0),
+          this.randomInt(0, 0)
         )
       );
     }
