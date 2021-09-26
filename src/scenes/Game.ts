@@ -22,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
   round: number;
   pickups: Array<Droppable>;
   isPaused: boolean;
+  isUpgrading: boolean;
 
   constructor() {
     super("GameScene");
@@ -33,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
     this.aliveEnemies = 0;
     this.pickups = [];
     this.isPaused = false;
+    this.isUpgrading = false;
   }
 
   preload() {

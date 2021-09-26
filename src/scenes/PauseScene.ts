@@ -4,6 +4,7 @@ import GameScene from "./Game";
 export default class PauseScene extends Phaser.Scene {
   mainScene?: GameScene;
   bg!: Phaser.GameObjects.Rectangle;
+  text!: Phaser.GameObjects.Text;
   constructor() {
     super({ key: "PauseScene", active: true });
   }
@@ -15,14 +16,21 @@ export default class PauseScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.sys.game.canvas;
-    console.debug("OK!");
-    console.debug(width, height);
-    this.bg = this.add.rectangle(0, 0, width, height, 0, 1).setAlpha(0);
+    this.bg = this.add
+      .rectangle(0, 0, width, height, 0, 1)
+      .setAlpha(0)
+      .setDepth(-999);
     this.bg.scale = 2;
+    this.text = this.add
+      .text(width / 2, height / 2, "PAUSADO", { fontSize: "3rem" })
+      .setOrigin(0.5)
+      .setAlpha(0)
+      .setDepth(0);
 
     this.mainScene = this.scene.get("GameScene") as GameScene;
 
     this.input.keyboard.on("keydown-ESC", () => {
+      if (this.mainScene?.isUpgrading) return;
       if (!this.mainScene!.isPaused) {
         this.mainScene!.isPaused = true;
         return this.scene.pause("GameScene");
@@ -35,8 +43,10 @@ export default class PauseScene extends Phaser.Scene {
   checkBackgroundAlpha() {
     if (this.mainScene?.isPaused) {
       this.bg.setAlpha(0.8);
+      this.text.setAlpha(1);
     } else {
       this.bg.setAlpha(0);
+      this.text.setAlpha(0);
     }
   }
 
