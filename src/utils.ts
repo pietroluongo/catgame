@@ -14,3 +14,17 @@ export const randomUnsignedFloat = (min: number, max: number) =>
 export const CENTER_COORDS = [5100, 5100];
 
 export const SCORE_PER_KILL = 100;
+
+export const ENEMY_SHOOT_BASE_SPEED = 1000;
+
+export const ENEMY_SHOOT_DELAY = 100;
+
+export const ENEMY_BASE_SHOOT_DISTANCE = 100;
+
+export const ENEMY_MAX_ACCELERATION = 1000;
+
+export const ENEMY_MAX_SPEED = 500;
+
+export const ENEMY_BASE_SIZE = 0.85;
+
+export const PLAYER_BASE_SHOT_SIZE = 1.2;

@@ -36,7 +36,6 @@ export default class FlyingObject extends Phaser.GameObjects.GameObject {
   }
 
   applyDamage = (dmg: number) => {
-    console.debug("ouch");
     this.health! -= dmg;
     if (this.health! <= 0) {
       this.health = 0;

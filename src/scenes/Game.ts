@@ -56,6 +56,15 @@ export default class GameScene extends Phaser.Scene {
     this.add.text(-200, -100, "aim with MOUSE");
   };
 
+  getEnemiesOnRound(round: number) {
+    return (
+      0.000058 * round ** 3 +
+      0.074032 * round ** 2 +
+      0.718119 * round +
+      14.738699
+    );
+  }
+
   killEnemy = () => {
     this.aliveEnemies--;
   };

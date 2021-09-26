@@ -1,6 +1,7 @@
 import FlyingObject from "../flyingObject/index";
 import Projectile, { ProjectileType } from "../projectile";
 import GameScene, { INITIAL_CAMERA_ZOOM } from "../../scenes/Game";
+import { PLAYER_BASE_SHOT_SIZE } from "../../utils";
 
 export const maxPlayerSpeed = 1000;
 export const playerAcceleration = 2000;
@@ -91,6 +92,7 @@ export default class Player extends FlyingObject {
   };
 
   handleShooting = () => {
+    if (!this.canShoot) return;
     this.scene.input.on("pointerup", () => {
       this.hasFiredSinceLastClick = false;
     });
@@ -104,7 +106,8 @@ export default class Player extends FlyingObject {
           this.sprite.x,
           this.sprite.y,
           this.sprite.angle,
-          1000
+          1000,
+          PLAYER_BASE_SHOT_SIZE
         );
       }
     });
@@ -143,15 +146,16 @@ export default class Player extends FlyingObject {
   };
 
   die = () => {
-    console.debug("i dead");
     this.sprite.setVelocity(0, 0);
     this.sprite.setAcceleration(0, 0);
+    this.canMove = false;
+    this.isAlive = false;
+    this.canShoot = false;
   };
 
   handlePlayerState = () => {
     if (this.health! <= 0) {
-      this.canMove = false;
-      this.isAlive = false;
+      this.die();
     }
   };
 
@@ -168,9 +172,7 @@ export default class Player extends FlyingObject {
       this.lockMovement();
     }
 
-    if (this.canShoot) {
-      this.handleShooting();
-    }
+    this.handleShooting();
 
     this.handleCameraZoom();
 

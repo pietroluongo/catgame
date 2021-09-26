@@ -18,7 +18,8 @@ export default class Projectile extends Phaser.GameObjects.GameObject {
     x: number,
     y: number,
     angle: number = 0,
-    speed: number = 100
+    speed: number = 100,
+    scale: number = 1
   ) {
     super(scene, label);
     this.scene = scene;
@@ -29,6 +30,7 @@ export default class Projectile extends Phaser.GameObjects.GameObject {
     this.sprite.debugShowBody = true;
     this.scene.registerProjectile(this);
     this.sprite.enableBody(true, x, y, true, true);
+    this.sprite.setScale(scale);
     this.scene.physics.velocityFromAngle(
       angle,
       speed,

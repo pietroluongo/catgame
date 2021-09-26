@@ -1,17 +1,6 @@
 import GameScene from "../../scenes/Game";
-import { randomUnsignedFloat } from "../../utils";
 import Enemy from "../enemy";
 import Player from "../player";
-
-const SPRITE_SIZE_IN_PIXELS = 32;
-const MIN_SIZE = 64;
-
-interface SpriteList {
-  inside: string;
-  flat: string;
-  corner: string;
-}
-
 export class EnemySpawner extends Phaser.GameObjects.GameObject {
   radius: integer;
   scene: GameScene;
@@ -53,7 +42,5 @@ export class EnemySpawner extends Phaser.GameObjects.GameObject {
     });
   }
 
-  update() {
-    this.enemies.map((e) => e.update());
-  }
+  update() {}
 }

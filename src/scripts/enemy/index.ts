@@ -1,7 +1,15 @@
 import FlyingObject from "../flyingObject/index";
 import GameScene from "../../scenes/Game";
 import Projectile, { ProjectileType } from "../projectile";
-import { SCORE_PER_KILL } from "../../utils";
+import {
+  ENEMY_BASE_SHOOT_DISTANCE,
+  ENEMY_BASE_SIZE,
+  ENEMY_MAX_ACCELERATION,
+  ENEMY_MAX_SPEED,
+  ENEMY_SHOOT_BASE_SPEED,
+  ENEMY_SHOOT_DELAY,
+  SCORE_PER_KILL,
+} from "../../utils";
 
 export default class Enemy extends FlyingObject {
   player: FlyingObject;
@@ -14,15 +22,17 @@ export default class Enemy extends FlyingObject {
   constructor(player: FlyingObject, scene: GameScene, x: number, y: number) {
     super("player", scene, x, y, ["catbase"], false);
     this.player = player;
-    this.maxAcceleration = 100; // This is arbitrary
-    this.minimumDistanceToShoot = 500; // This is arbitrary
+    this.maxAcceleration = ENEMY_MAX_ACCELERATION; // This is arbitrary
+    this.sprite.setMaxVelocity(ENEMY_MAX_SPEED);
+    this.minimumDistanceToShoot = ENEMY_BASE_SHOOT_DISTANCE; // This is arbitrary
     this.updateCounter = 0;
-    this.counterLimitToShoot = 100; // This is arbitrary
+    this.counterLimitToShoot = ENEMY_SHOOT_DELAY; // This is arbitrary
     this.health = 100;
     this.canMove = true;
     this.isAlive = true;
     this.acceleration = 0;
     this.sprite.body.setSize(75);
+    this.sprite.setScale(ENEMY_BASE_SIZE);
   }
 
   update() {
@@ -108,7 +118,7 @@ export default class Enemy extends FlyingObject {
         this.sprite.x,
         this.sprite.y,
         degreeAngle,
-        1000
+        ENEMY_SHOOT_BASE_SPEED
       );
       this.updateCounter = 0;
     }

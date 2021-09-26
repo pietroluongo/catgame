@@ -10,8 +10,10 @@ export default class UIScene extends Phaser.Scene {
   screenWidth?: integer;
   screenHeight?: integer;
   scoreText?: Phaser.GameObjects.Text;
+  hasDrawnDeathText: boolean;
   constructor() {
     super({ key: "UIScene", active: true });
+    this.hasDrawnDeathText = false;
   }
 
   preload() {}
@@ -59,28 +61,37 @@ export default class UIScene extends Phaser.Scene {
     this.roundText!.text = `Round ${round}`;
   };
 
-  update() {
-    // if (this.mainScene.player && !this.mainScene.player.isAlive) {
-    //   const txt = this.add
-    //     .text(this.screenWidth! / 2, this.screenHeight! / 2, "MORREU", {
-    //       fontSize: "10rem",
-    //       color: "red",
-    //       fontStyle: "bold",
-    //     })
-    //     .setOrigin(0.5)
-    //     .setAlpha(0);
+  drawDeathText = () => {
+    if (
+      this.mainScene.player &&
+      !this.mainScene.player.isAlive &&
+      !this.hasDrawnDeathText
+    ) {
+      this.hasDrawnDeathText = true;
+      const txt = this.add
+        .text(this.screenWidth! / 2, this.screenHeight! / 2, "MORREU", {
+          fontSize: "10rem",
+          color: "red",
+          fontStyle: "bold",
+        })
+        .setOrigin(0.5)
+        .setAlpha(0);
 
-    //   this.tweens.add({
-    //     targets: [txt],
-    //     alpha: 1,
-    //     duration: 10000,
-    //   });
-    // }
+      this.tweens.add({
+        targets: [txt],
+        alpha: 1,
+        duration: 3000,
+      });
+    }
+  };
+
+  update() {
     if (this.mainScene.scene.isActive()) {
       this.debugMenu.update();
       this.drawHealth();
       this.drawScore();
       this.drawRound();
+      this.drawDeathText();
     }
   }
 }
