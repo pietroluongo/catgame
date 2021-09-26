@@ -37,6 +37,10 @@ export class EnemySpawner extends Phaser.GameObjects.GameObject {
     this.player = this.scene.player;
     scene.add.circle(this.x, this.y, this.radius, 0xff0000, 0.1);
     console.debug("Spawner added at ", x, y);
+    this.respawn();
+  }
+
+  respawn() {
     [...Array(this.enemyCount)].map(() => {
       // Polar coordinates
       const r = this.radius * Math.sqrt(Math.random());

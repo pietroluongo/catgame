@@ -10,6 +10,7 @@ export default class Player extends FlyingObject {
   hasFiredSinceLastClick: boolean;
   canBrake: boolean;
   canShoot: boolean;
+  score: number;
 
   constructor(
     scene: GameScene,
@@ -36,6 +37,7 @@ export default class Player extends FlyingObject {
     this.hasFiredSinceLastClick = false;
     this.canBrake = true;
     this.sprite.body.setSize(100, 100);
+    this.score = 0;
   }
 
   handleMovementKeys = () => {
@@ -79,6 +81,10 @@ export default class Player extends FlyingObject {
     this.sprite.setDrag(maxPlayerSpeed / 2, maxPlayerSpeed / 2);
   };
 
+  addScore = (amt: number) => {
+    this.score += amt;
+  };
+
   lockMovement = () => {
     this.sprite.setVelocity(0, 0);
     this.sprite.setAcceleration(0, 0);
@@ -97,7 +103,8 @@ export default class Player extends FlyingObject {
           ProjectileType.player,
           this.sprite.x,
           this.sprite.y,
-          this.sprite.angle
+          this.sprite.angle,
+          1000
         );
       }
     });

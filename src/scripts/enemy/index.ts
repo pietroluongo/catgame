@@ -1,6 +1,7 @@
 import FlyingObject from "../flyingObject/index";
 import GameScene from "../../scenes/Game";
 import Projectile, { ProjectileType } from "../projectile";
+import { SCORE_PER_KILL } from "../../utils";
 
 export default class Enemy extends FlyingObject {
   player: FlyingObject;
@@ -49,7 +50,10 @@ export default class Enemy extends FlyingObject {
     });
     setTimeout(() => {
       this.sprite.destroy();
+      this.destroy();
     }, 5000);
+    this.scene.player.addScore(SCORE_PER_KILL);
+    this.scene.aliveEnemies--;
   };
 
   handleMovement = () => {
@@ -103,7 +107,8 @@ export default class Enemy extends FlyingObject {
         ProjectileType.enemy,
         this.sprite.x,
         this.sprite.y,
-        degreeAngle
+        degreeAngle,
+        1000
       );
       this.updateCounter = 0;
     }

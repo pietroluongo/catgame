@@ -11,11 +11,13 @@ export const INITIAL_CAMERA_ZOOM = 1;
 export default class GameScene extends Phaser.Scene {
   player!: Player;
   enemies: Array<Enemy>;
+  aliveEnemies: number;
   keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
   projectiles: Array<Projectile>;
   barriers: Array<BarrierBlock>;
   barrierParentObject?: Phaser.GameObjects.GameObject;
   spawners: Array<EnemySpawner>;
+  round: number;
 
   constructor() {
     super("GameScene");
@@ -23,6 +25,8 @@ export default class GameScene extends Phaser.Scene {
     this.barriers = [];
     this.spawners = [];
     this.enemies = [];
+    this.round = 1;
+    this.aliveEnemies = 0;
   }
 
   preload() {
@@ -50,6 +54,10 @@ export default class GameScene extends Phaser.Scene {
     this.add.text(-200, -200, "move with WASD");
     this.add.text(-200, -150, "brake with SPACE");
     this.add.text(-200, -100, "aim with MOUSE");
+  };
+
+  killEnemy = () => {
+    this.aliveEnemies--;
   };
 
   create() {
@@ -93,15 +101,34 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
     this.projectiles = [];
+    const { width, height } = this.sys.game.canvas;
+    const minimap = this.cameras
+      .add(width - 400, 0, 400, 400)
+      .setZoom(0.1)
+      .setName("minimap");
+    minimap.startFollow(this.player);
   }
 
   update() {
     this.player.update();
     this.enemies.forEach((e) => e.update());
     this.spawners.forEach((e) => e.update());
+    if (this.aliveEnemies === 0) {
+      this.nextRound();
+    }
+  }
+
+  nextRound() {
+    this.round += 1;
+    this.respawnEnemies();
+  }
+
+  respawnEnemies() {
+    this.spawners.forEach((e) => e.respawn());
   }
 
   registerEnemy = (e: Enemy) => {
+    this.aliveEnemies++;
     this.enemies.push(e);
     e.sprite.setBounce(1, 1);
     this.physics.add.collider(e.sprite, this.barriers);

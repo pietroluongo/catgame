@@ -12,3 +12,5 @@ export const randomUnsignedFloat = (min: number, max: number) =>
   Math.random() * (max - min) + min;
 
 export const CENTER_COORDS = [5100, 5100];
+
+export const SCORE_PER_KILL = 100;
