@@ -8,8 +8,10 @@ import {
   ENEMY_MAX_SPEED,
   ENEMY_SHOOT_BASE_SPEED,
   ENEMY_SHOOT_DELAY,
+  HEALTHPACK_CHANCE,
   SCORE_PER_KILL,
 } from "../../utils";
+import Healthpack from "../healthpack";
 
 export default class Enemy extends FlyingObject {
   player: FlyingObject;
@@ -58,6 +60,7 @@ export default class Enemy extends FlyingObject {
       duration: 1000,
       alpha: 0,
     });
+    this.tryHealthpack();
     setTimeout(() => {
       this.sprite.destroy();
       this.destroy();
@@ -65,6 +68,14 @@ export default class Enemy extends FlyingObject {
     this.scene.player.addScore(SCORE_PER_KILL);
     this.scene.aliveEnemies--;
   };
+
+  tryHealthpack() {
+    const roll = Math.random();
+    if (roll < HEALTHPACK_CHANCE) {
+      new Healthpack(this.scene, this.x, this.y, 2);
+      console.log("healthpack");
+    }
+  }
 
   handleMovement = () => {
     var angleToPlayer = Phaser.Math.Angle.Between(

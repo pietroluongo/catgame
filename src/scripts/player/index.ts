@@ -1,7 +1,10 @@
 import FlyingObject from "../flyingObject/index";
 import Projectile, { ProjectileType } from "../projectile";
 import GameScene, { INITIAL_CAMERA_ZOOM } from "../../scenes/Game";
-import { PLAYER_BASE_SHOT_SIZE } from "../../utils";
+import {
+  HEALTHPACK_HEAL_BASE_AMOUNT,
+  PLAYER_BASE_SHOT_SIZE,
+} from "../../utils";
 
 export const maxPlayerSpeed = 1000;
 export const playerAcceleration = 2000;
@@ -143,6 +146,10 @@ export default class Player extends FlyingObject {
     } else {
       cam.zoomTo(1, 250, Phaser.Math.Easing.Quadratic.Out);
     }
+  };
+
+  heal = () => {
+    this.health! += HEALTHPACK_HEAL_BASE_AMOUNT;
   };
 
   die = () => {

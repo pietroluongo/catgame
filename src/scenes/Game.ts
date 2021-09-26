@@ -5,6 +5,8 @@ import Projectile, { ProjectileType } from "../scripts/projectile";
 import { BarrierBlock } from "../scripts/barrier";
 import getMapData from "../scripts/map";
 import { EnemySpawner } from "../scripts/spawner";
+import Healthpack from "../scripts/healthpack";
+import Droppable from "../scripts/droppable";
 
 export const INITIAL_CAMERA_ZOOM = 1;
 
@@ -18,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
   barrierParentObject?: Phaser.GameObjects.GameObject;
   spawners: Array<EnemySpawner>;
   round: number;
+  pickups: Array<Droppable>;
 
   constructor() {
     super("GameScene");
@@ -27,6 +30,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemies = [];
     this.round = 1;
     this.aliveEnemies = 0;
+    this.pickups = [];
   }
 
   preload() {
@@ -35,6 +39,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.text("mapData", "assets/catMap.svg");
 
     this.load.image("catbase", "assets/sprites/catbase.png");
+    this.load.image("catnip", "assets/sprites/catnip.png");
     this.load.image("flyingtoast", "assets/sprites/flyingtoast.png");
     this.load.image("rainbowtail", "assets/sprites/rainbowtail.png");
     this.load.image(
@@ -81,13 +86,6 @@ export default class GameScene extends Phaser.Scene {
     this.renderTutorial();
     this.player = new Player(this, 5100, 5100, this.keyboard);
 
-    // Enemies testing:
-    // for (var i = 0; i < 100; i++) {
-    //   this.enemies.push(
-    //     new Enemy(this.player, this, randomInt(0, 0), randomInt(0, 0))
-    //   );
-    // }
-
     const mapData = getMapData(this.cache.text.get("mapData"));
     const mapBlocks = mapData.blocks.map((block) =>
       this.barriers.push(
@@ -107,6 +105,8 @@ export default class GameScene extends Phaser.Scene {
       this.spawners.push(new EnemySpawner(this, spawn.x, spawn.y, spawn.r, 10))
     );
 
+    const drop = new Healthpack(this, 5200, 5200, 2);
+
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
     this.projectiles = [];
@@ -122,6 +122,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.update();
     this.enemies.forEach((e) => e.update());
     this.spawners.forEach((e) => e.update());
+    this.pickups.map((p) => p.update());
     if (this.aliveEnemies === 0) {
       this.nextRound();
     }
@@ -141,6 +142,14 @@ export default class GameScene extends Phaser.Scene {
     this.enemies.push(e);
     e.sprite.setBounce(1, 1);
     this.physics.add.collider(e.sprite, this.barriers);
+  };
+
+  registerDroppable = (d: Droppable) => {
+    console.debug(d);
+    this.pickups.push(d);
+    this.physics.add.overlap(this.player.sprite, d.sprite, () => {
+      d.pickup();
+    });
   };
 
   registerProjectile = (proj: Projectile) => {

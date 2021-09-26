@@ -26,8 +26,6 @@ export default class Projectile extends Phaser.GameObjects.GameObject {
     this.coords = { x, y, angle };
     this.sprite = scene.physics.add.sprite(x, y, label);
     this.origin = type;
-    this.sprite.debugShowVelocity = true;
-    this.sprite.debugShowBody = true;
     this.scene.registerProjectile(this);
     this.sprite.enableBody(true, x, y, true, true);
     this.sprite.setScale(scale);
@@ -41,7 +39,6 @@ export default class Projectile extends Phaser.GameObjects.GameObject {
   update() {}
 
   destroy() {
-    console.log("destroying projectile...");
     this.sprite.destroy();
     super.destroy();
   }

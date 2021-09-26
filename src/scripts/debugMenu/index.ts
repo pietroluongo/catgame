@@ -49,6 +49,7 @@ export class DebugMenu {
       "player x: " + this.scene.mainScene.player.x,
       "player y: " + this.scene.mainScene.player.y,
       "projectile count: " + this.scene.mainScene.projectiles.length,
+      "enemy count: " + this.scene.mainScene.aliveEnemies,
       "gamestate: " + "main game loop",
     ]);
   }
