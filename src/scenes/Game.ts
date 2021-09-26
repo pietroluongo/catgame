@@ -72,34 +72,9 @@ export default class GameScene extends Phaser.Scene {
     this.enemies = new Array<Enemy>();
     for (var i = 0; i < 100; i++) {
       this.enemies.push(
-        new Enemy(
-          this.player,
-          this,
-          this.randomInt(0, 0),
-          this.randomInt(0, 0)
-        )
+        new Enemy(this.player, this, this.randomInt(0, 0), this.randomInt(0, 0))
       );
     }
-
-    // Adding one barrier:
-    const barrier = new BarrierBlock(
-      this,
-      "block",
-      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
-      -5100,
-      -5100,
-      10,
-      5100 * 2
-    );
-    const dbgBarrier = new BarrierBlock(
-      this,
-      "block",
-      { corner: "cakeLeft", flat: "cakeMid", inside: "cakeCenter" },
-      200,
-      200,
-      200,
-      200
-    );
 
     const mapData = getMapData(this.cache.text.get("mapData")).map((block) =>
       this.barriers.push(
@@ -115,8 +90,6 @@ export default class GameScene extends Phaser.Scene {
       )
     );
 
-    this.barriers.push(barrier);
-    const logo = this.add.image(400, 70, "logo");
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
     this.projectiles = [];

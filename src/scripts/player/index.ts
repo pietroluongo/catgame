@@ -2,8 +2,8 @@ import FlyingObject from "../flyingObject/index";
 import Projectile, { ProjectileType } from "../projectile";
 import GameScene, { INITIAL_CAMERA_ZOOM } from "../../scenes/Game";
 
-export const maxPlayerSpeed = 250;
-export const playerAcceleration = 500;
+export const maxPlayerSpeed = 1000;
+export const playerAcceleration = 2000;
 
 export default class Player extends FlyingObject {
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin;
