@@ -149,7 +149,6 @@ export default class GameScene extends Phaser.Scene {
   };
 
   registerDroppable = (d: Droppable) => {
-    console.debug(d);
     this.pickups.push(d);
     this.physics.add.overlap(this.player.sprite, d.sprite, () => {
       d.pickup();

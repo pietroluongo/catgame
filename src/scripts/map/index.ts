@@ -33,7 +33,6 @@ const getMapData = (mapString: string): MapData => {
   const mapData: Array<any> = parsedData.children[0].children[2].children.map(
     (dat) => dat.properties
   );
-  console.debug(mapData);
   const blockData: Array<MapBlock> = mapData.filter((element: { id: string }) =>
     element.id.startsWith("rect")
   );
@@ -54,8 +53,6 @@ const getMapData = (mapString: string): MapData => {
     y: spawn.cy * MM_TO_PX,
     r: spawn.r * MM_TO_PX,
   }));
-
-  console.debug({ blocks: blockDataInPx, spawners: spawnDataInPx });
 
   return { blocks: blockDataInPx, spawners: spawnDataInPx };
 };
