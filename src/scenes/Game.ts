@@ -21,6 +21,7 @@ export default class GameScene extends Phaser.Scene {
   spawners: Array<EnemySpawner>;
   round: number;
   pickups: Array<Droppable>;
+  isPaused: boolean;
 
   constructor() {
     super("GameScene");
@@ -31,6 +32,7 @@ export default class GameScene extends Phaser.Scene {
     this.round = 1;
     this.aliveEnemies = 0;
     this.pickups = [];
+    this.isPaused = false;
   }
 
   preload() {

@@ -29,7 +29,7 @@ export const ENEMY_BASE_SIZE = 0.85;
 
 export const PLAYER_BASE_SHOT_SIZE = 1.2;
 
-export const HEALTHPACK_CHANCE = 0.01;
+export const HEALTHPACK_CHANCE = 0.05;
 
 export const HEALTHPACK_HEAL_BASE_AMOUNT = 25;
 

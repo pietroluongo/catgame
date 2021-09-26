@@ -12,7 +12,6 @@ export class DebugMenu {
   constructor(scene: UIScene) {
     this.scene = scene;
     this.areDebugStatsActive = false;
-    this.areDebugStatsActive = false;
     this.debugBg = this.scene.add
       .rectangle(0, 0, 500, 300, 0x000000)
       .setAlpha(0)
