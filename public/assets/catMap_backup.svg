@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="true"
      units="px"
-     inkscape:zoom="0.088388348"
-     inkscape:cx="4430.8102"
-     inkscape:cy="5649.684"
+     inkscape:zoom="0.044194174"
+     inkscape:cx="3043.7002"
+     inkscape:cy="7085.608"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="1912"
@@ -44,116 +44,152 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.236493"
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.864124"
        id="rect136"
-       width="29.218306"
-       height="889"
-       x="437.07687"
-       y="931.33331"
+       width="128"
+       height="2709.3333"
+       x="0"
+       y="0"
        ry="0" />
     <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.362488"
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.820102"
        id="rect138"
-       width="1820.3334"
-       height="37.219685"
-       x="423.33334"
-       y="1783.1136" />
+       width="2709.3333"
+       height="128"
+       x="0"
+       y="2582.3333" />
     <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.511571"
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:1.72905"
        id="rect140"
-       width="1778.0001"
-       height="17.074108"
-       x="465.66666"
-       y="918.89807" />
+       width="2709.3333"
+       height="128"
+       x="0"
+       y="0" />
     <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.96705"
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:3.70967"
        id="rect250"
-       width="26.509348"
-       height="889.00006"
-       x="2242.967"
-       y="931.33331" />
+       width="128"
+       height="2709.3333"
+       x="2581.3333"
+       y="3.1789125e-07" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.269208"
        id="rect372"
        width="32"
        height="250.03125"
        x="560.66669"
-       y="1259.1666" />
+       y="687.66669" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.353553"
        id="rect374"
        width="250"
        height="32"
        x="592.66669"
-       y="1259.1666" />
+       y="687.66669" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.223606"
        id="rect374-3"
        width="100"
        height="32"
        x="592.66669"
-       y="1477.1979" />
+       y="905.69794" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.345053"
        id="rect376"
        width="32"
        height="250.03101"
        x="842.69794"
-       y="1259.1666" />
+       y="687.66669" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.223606"
        id="rect374-3-6"
        width="100"
        height="32"
        x="742.69794"
-       y="1477.1979" />
+       y="905.69794" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.269208"
        id="rect372-6"
        width="32"
        height="250.03125"
        x="1877"
-       y="1248.8333" />
+       y="677.33331" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.353553"
        id="rect374-0"
        width="250"
        height="32"
        x="1909"
-       y="1248.8333" />
+       y="677.33331" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.223606"
        id="rect374-3-0"
        width="100"
        height="32"
        x="1909"
-       y="1466.8645" />
+       y="895.36456" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.345053"
        id="rect376-3"
        width="32"
        height="250.03101"
        x="2159.0312"
-       y="1248.8333" />
+       y="677.33331" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.223606"
        id="rect374-3-6-9"
        width="100"
        height="32"
        x="2059.0312"
-       y="1466.8645" />
+       y="895.36456" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect674"
+       width="1693.3334"
+       height="105.83341"
+       x="550.33331"
+       y="1947.3333" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect676"
+       width="127"
+       height="486.83331"
+       x="1354.6666"
+       y="2053.1667" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
        id="rect678"
        width="762"
        height="42.333332"
        x="1016"
-       y="1418.1666" />
-    <circle
-       style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.264583"
-       id="path1281"
-       cx="1031.0123"
-       cy="1084.8884"
-       r="100" />
+       y="783.16669" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect704"
+       width="275.16666"
+       height="21.166666"
+       x="254"
+       y="2328.3333" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.305516"
+       id="rect706"
+       width="21.167"
+       height="182.5625"
+       x="508"
+       y="2349.5" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect704-9"
+       width="275.16666"
+       height="21.166666"
+       x="2222.5"
+       y="2307.1665" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.305516"
+       id="rect706-7"
+       width="21.167"
+       height="182.5625"
+       x="2222.5"
+       y="2328.3333" />
   </g>
 </svg>

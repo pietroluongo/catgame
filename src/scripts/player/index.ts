@@ -76,7 +76,7 @@ export default class Player extends FlyingObject {
         this.canBrake = true;
       }, 50);
     });
-    this.sprite.setDrag(50, 50);
+    this.sprite.setDrag(maxPlayerSpeed / 2, maxPlayerSpeed / 2);
   };
 
   lockMovement = () => {

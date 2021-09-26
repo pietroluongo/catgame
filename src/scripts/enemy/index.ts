@@ -39,6 +39,7 @@ export default class Enemy extends FlyingObject {
 
   die = () => {
     this.isAlive = false;
+    this.sprite.disableBody();
     this.sprite.setVelocity(0, 0);
     this.sprite.setAcceleration(0, 0);
     this.scene.tweens.add({

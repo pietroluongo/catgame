@@ -4,23 +4,25 @@ import Enemy from "../scripts/enemy";
 import Projectile, { ProjectileType } from "../scripts/projectile";
 import { BarrierBlock } from "../scripts/barrier";
 import getMapData from "../scripts/map";
+import { EnemySpawner } from "../scripts/spawner";
 
-export const INITIAL_CAMERA_ZOOM = 0.1;
-
-const CENTER_COORDS = [5100, 5100];
+export const INITIAL_CAMERA_ZOOM = 1;
 
 export default class GameScene extends Phaser.Scene {
   player!: Player;
-  enemies!: Array<Enemy>;
+  enemies: Array<Enemy>;
   keyboard!: Phaser.Input.Keyboard.KeyboardPlugin;
   projectiles: Array<Projectile>;
   barriers: Array<BarrierBlock>;
   barrierParentObject?: Phaser.GameObjects.GameObject;
+  spawners: Array<EnemySpawner>;
 
   constructor() {
     super("GameScene");
     this.projectiles = [];
     this.barriers = [];
+    this.spawners = [];
+    this.enemies = [];
   }
 
   preload() {
@@ -50,12 +52,6 @@ export default class GameScene extends Phaser.Scene {
     this.add.text(-200, -100, "aim with MOUSE");
   };
 
-  randomSignal = () => (Math.random() > 0.5 ? -1 : 1);
-  randomUnsigned = (min: integer, max: integer) =>
-    min + Math.floor(Math.random() * (max - min));
-  randomInt = (min: integer, max: integer) =>
-    this.randomSignal() * this.randomUnsigned(min, max);
-
   create() {
     this.barrierParentObject = new Phaser.GameObjects.GameObject(
       this,
@@ -69,14 +65,14 @@ export default class GameScene extends Phaser.Scene {
     this.player = new Player(this, 5100, 5100, this.keyboard);
 
     // Enemies testing:
-    this.enemies = new Array<Enemy>();
-    for (var i = 0; i < 100; i++) {
-      this.enemies.push(
-        new Enemy(this.player, this, this.randomInt(0, 0), this.randomInt(0, 0))
-      );
-    }
+    // for (var i = 0; i < 100; i++) {
+    //   this.enemies.push(
+    //     new Enemy(this.player, this, randomInt(0, 0), randomInt(0, 0))
+    //   );
+    // }
 
-    const mapData = getMapData(this.cache.text.get("mapData")).map((block) =>
+    const mapData = getMapData(this.cache.text.get("mapData"));
+    const mapBlocks = mapData.blocks.map((block) =>
       this.barriers.push(
         new BarrierBlock(
           this,
@@ -90,6 +86,10 @@ export default class GameScene extends Phaser.Scene {
       )
     );
 
+    const MapSpawners = mapData.spawners.map((spawn) =>
+      this.spawners.push(new EnemySpawner(this, spawn.x, spawn.y, spawn.r, 10))
+    );
+
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
     this.projectiles = [];
@@ -97,8 +97,15 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.player.update();
-    this.enemies.forEach((e, i, es) => e.update());
+    this.enemies.forEach((e) => e.update());
+    this.spawners.forEach((e) => e.update());
   }
+
+  registerEnemy = (e: Enemy) => {
+    this.enemies.push(e);
+    e.sprite.setBounce(1, 1);
+    this.physics.add.collider(e.sprite, this.barriers);
+  };
 
   registerProjectile = (proj: Projectile) => {
     if (proj.origin == ProjectileType.enemy) {
