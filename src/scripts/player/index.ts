@@ -86,6 +86,7 @@ export default class Player extends FlyingObject {
   };
 
   addScore = (amt: number) => {
+    if (!this.isAlive) return;
     this.score += amt;
   };
 
@@ -158,6 +159,7 @@ export default class Player extends FlyingObject {
     this.canMove = false;
     this.isAlive = false;
     this.canShoot = false;
+    this.scene.canRestart = true;
   };
 
   handlePlayerState = () => {

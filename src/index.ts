@@ -6,8 +6,11 @@ import UIScene from "./scenes/UIScene";
 import UpgradeScene from "./scenes/UpgradeScene";
 import PauseScene from "./scenes/PauseScene";
 
-const catGame = new Phaser.Game(
-  Object.assign(config, {
-    scene: [gameScene, MainMenuScene, UIScene, UpgradeScene, PauseScene],
-  })
-);
+export const generateNewCatGame = () =>
+  new Phaser.Game(
+    Object.assign(config, {
+      scene: [gameScene, MainMenuScene, UIScene, UpgradeScene, PauseScene],
+    })
+  );
+
+generateNewCatGame();

@@ -7,6 +7,7 @@ import getMapData from "../scripts/map";
 import { EnemySpawner } from "../scripts/spawner";
 import Healthpack from "../scripts/healthpack";
 import Droppable from "../scripts/droppable";
+import { generateNewCatGame } from "..";
 
 export const INITIAL_CAMERA_ZOOM = 1;
 
@@ -23,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
   pickups: Array<Droppable>;
   isPaused: boolean;
   isUpgrading: boolean;
+  canRestart: boolean;
 
   constructor() {
     super("GameScene");
@@ -35,6 +37,7 @@ export default class GameScene extends Phaser.Scene {
     this.pickups = [];
     this.isPaused = false;
     this.isUpgrading = false;
+    this.canRestart = false;
   }
 
   preload() {
@@ -109,8 +112,6 @@ export default class GameScene extends Phaser.Scene {
       this.spawners.push(new EnemySpawner(this, spawn.x, spawn.y, spawn.r, 10))
     );
 
-    const drop = new Healthpack(this, 5200, 5200, 2);
-
     this.cameras.main.startFollow(this.player.sprite, false, 0.05, 0.05);
     this.cameras.main.zoom = INITIAL_CAMERA_ZOOM;
     this.projectiles = [];
@@ -172,7 +173,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemies.map((enemy) => {
       this.physics.add.collider(enemy.sprite, this.player.sprite, () => {
         if (enemy.isAlive) this.player.applyDamage(5);
-        enemy.applyDamage(100);
+        if (this.player.isAlive) enemy.applyDamage(100);
       });
     });
 

@@ -68,8 +68,13 @@ export default class UIScene extends Phaser.Scene {
       !this.hasDrawnDeathText
     ) {
       this.hasDrawnDeathText = true;
+      const deathBg = this.add
+        .rectangle(0, 0, this.screenWidth, this.screenHeight, 0)
+        .setAlpha(0)
+        .setScale(2);
+
       const txt = this.add
-        .text(this.screenWidth! / 2, this.screenHeight! / 2, "MORREU", {
+        .text(this.screenWidth! / 2, this.screenHeight! / 2, "PERDEU", {
           fontSize: "10rem",
           color: "red",
           fontStyle: "bold",
@@ -77,9 +82,41 @@ export default class UIScene extends Phaser.Scene {
         .setOrigin(0.5)
         .setAlpha(0);
 
+      const txt2 = this.add
+        .text(
+          this.screenWidth! / 2,
+          this.screenHeight! / 2 + this.screenHeight! / 8,
+          "Seus resultados foram salvos.",
+          {
+            fontSize: "2rem",
+            fontStyle: "bold",
+          }
+        )
+        .setOrigin(0.5)
+        .setAlpha(0);
+
+      const txt3 = this.add
+        .text(
+          this.screenWidth! / 2,
+          this.screenHeight! / 2 + this.screenHeight! / 6,
+          "Pressione Ctrl+R para tentar de novo",
+          {
+            fontSize: "2rem",
+            fontStyle: "bold",
+          }
+        )
+        .setOrigin(0.5)
+        .setAlpha(0);
+
       this.tweens.add({
-        targets: [txt],
+        targets: [txt, txt2, txt3],
         alpha: 1,
+        duration: 3000,
+      });
+
+      this.tweens.add({
+        targets: [deathBg],
+        alpha: 0.8,
         duration: 3000,
       });
     }
