@@ -25,6 +25,7 @@ export class DebugMenu {
       .setScrollFactor(0, 0);
     const consoleKeyStatus = this.scene.input.keyboard.addKey("tab", true);
     consoleKeyStatus.on("down", () => {
+      return;
       this.areDebugStatsActive = !this.areDebugStatsActive;
     });
     this.debugBg.setDepth(999);

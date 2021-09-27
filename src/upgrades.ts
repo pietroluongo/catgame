@@ -9,7 +9,7 @@ export enum PossibleUpgrades {
   totalHealth,
   fireSpeed,
   moveSpeed,
-  unknown,
+  dropChance,
   bulletSize,
   bulletSpeed,
   bulletDamage,
@@ -36,10 +36,10 @@ const upgradesList: Array<UpgradeItemData> = [
     id: PossibleUpgrades.moveSpeed,
   },
   {
-    title: "???",
-    description: "???",
+    title: "Chance de Drop",
+    description: "Aumenta a chance de um inimigo deixar um item",
     icon: "test4",
-    id: PossibleUpgrades.unknown,
+    id: PossibleUpgrades.dropChance,
   },
   {
     title: "Tamanho do Cookie",

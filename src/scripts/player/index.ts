@@ -5,9 +5,78 @@ import {
   HEALTHPACK_HEAL_BASE_AMOUNT,
   PLAYER_BASE_SHOT_SIZE,
 } from "../../utils";
+import { PossibleUpgrades } from "../../upgrades";
 
 export const maxPlayerSpeed = 1000;
 export const playerAcceleration = 2000;
+
+export interface UpgradeData {
+  currentLevel: number;
+  maxLevel: number;
+  values: Array<number>;
+  prices: Array<number>;
+}
+interface UpgradeLevels {
+  totalHealth: UpgradeData;
+  fireSpeed: UpgradeData;
+  moveSpeed: UpgradeData;
+  dropChance: UpgradeData;
+  bulletSize: UpgradeData;
+  bulletSpeed: UpgradeData;
+  bulletDamage: UpgradeData;
+  bulletPenetration: UpgradeData;
+}
+
+const standardUpgrades: UpgradeLevels = {
+  totalHealth: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [100, 125, 150, 175, 200],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  fireSpeed: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [0.8, 0.6, 0.4, 0.2, 0],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  moveSpeed: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [200, 400, 600, 800, 1000],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  dropChance: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [0.01, 0.02, 0.04, 0.08, 0.1],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  bulletSize: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [1, 2, 3, 4, 5],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  bulletDamage: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [100, 200, 400, 800, 1000],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  bulletSpeed: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [500, 800, 1000, 2500, 5000],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+  bulletPenetration: {
+    currentLevel: 1,
+    maxLevel: 5,
+    values: [0, 2, 4, 8, 10],
+    prices: [10000, 10000, 10000, 10000, 10000],
+  },
+};
 
 export default class Player extends FlyingObject {
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin;
@@ -15,6 +84,8 @@ export default class Player extends FlyingObject {
   canBrake: boolean;
   canShoot: boolean;
   score: number;
+  upgrades: UpgradeLevels;
+  maxHealth: number;
 
   constructor(
     scene: GameScene,
@@ -34,10 +105,10 @@ export default class Player extends FlyingObject {
     this.canShoot = true;
     this.isAlive = true;
     this.health = 100;
+    this.upgrades = standardUpgrades;
+    this.maxHealth = this.upgrades.totalHealth.values[0];
     this.keyboard = keyboard;
-    this.sprite.debugShowVelocity = true;
-    this.sprite.debugShowBody = true;
-    this.sprite.setMaxVelocity(maxPlayerSpeed, maxPlayerSpeed);
+    this.sprite.setMaxVelocity(this.upgrades.moveSpeed.values[0]);
     this.hasFiredSinceLastClick = false;
     this.canBrake = true;
     this.sprite.body.setSize(100, 100);
@@ -110,12 +181,35 @@ export default class Player extends FlyingObject {
           this.sprite.x,
           this.sprite.y,
           this.sprite.angle,
-          1000,
-          PLAYER_BASE_SHOT_SIZE
+          3000,
+          5
         );
       }
     });
   };
+
+  getUpgradeParamById(id: PossibleUpgrades): UpgradeData {
+    switch (id) {
+      case PossibleUpgrades.bulletDamage:
+        return this.upgrades.bulletDamage;
+      case PossibleUpgrades.bulletPenetration:
+        return this.upgrades.bulletPenetration;
+      case PossibleUpgrades.bulletSize:
+        return this.upgrades.bulletSize;
+      case PossibleUpgrades.bulletSpeed:
+        return this.upgrades.bulletSpeed;
+      case PossibleUpgrades.dropChance:
+        return this.upgrades.dropChance;
+      case PossibleUpgrades.fireSpeed:
+        return this.upgrades.fireSpeed;
+      case PossibleUpgrades.moveSpeed:
+        return this.upgrades.moveSpeed;
+      case PossibleUpgrades.totalHealth:
+        return this.upgrades.totalHealth;
+      default:
+        return { currentLevel: -1, maxLevel: -1, values: [], prices: [] };
+    }
+  }
 
   handlePointer = () => {
     const pointer = this.scene.input.activePointer;

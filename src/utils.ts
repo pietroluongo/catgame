@@ -33,4 +33,4 @@ export const HEALTHPACK_CHANCE = 0.05;
 
 export const HEALTHPACK_HEAL_BASE_AMOUNT = 25;
 
-export const HEALTHPACK_TIMEOUT = 3000;
+export const HEALTHPACK_TIMEOUT = 5000;

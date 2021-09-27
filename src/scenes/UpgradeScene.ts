@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Player from "../scripts/player";
 import UpgradeItem from "../scripts/ui/upgradeItem";
 import upgradesList from "../upgrades";
 import GameScene from "./Game";
@@ -13,6 +14,7 @@ export default class UpgradeScene extends Phaser.Scene {
   upgradeItems: Array<UpgradeItem>;
   X_MARGIN: number;
   Y_MARGIN: number;
+  player!: Player;
 
   constructor() {
     super({ key: "UpgradeScene", active: true });
@@ -47,9 +49,10 @@ export default class UpgradeScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.mainScene = this.scene.get("GameScene") as GameScene;
+    this.player = this.mainScene.player;
 
     this.input.keyboard.on("keydown-TAB", () => {
-      if (this.mainScene?.isPaused) return;
+      if (this.mainScene?.isPaused || !this.player.isAlive) return;
       if (!this.mainScene!.isUpgrading) {
         this.mainScene!.isUpgrading = true;
         return this.scene.pause("GameScene");
@@ -69,7 +72,7 @@ export default class UpgradeScene extends Phaser.Scene {
           this.Y_MARGIN + Math.floor(idx / ITEMS_PER_COLUMN) * 500,
           item.title,
           item.description,
-          item.icon
+          this.player.getUpgradeParamById(item.id)
         )
     );
   }
