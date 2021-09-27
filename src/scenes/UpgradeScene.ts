@@ -1,12 +1,25 @@
 import Phaser from "phaser";
+import UpgradeItem from "../scripts/ui/upgradeItem";
+import upgradesList from "../upgrades";
 import GameScene from "./Game";
+
+const ITEMS_PER_COLUMN = 4;
+const ITEMS_PER_LINE = 4;
 
 export default class UpgradeScene extends Phaser.Scene {
   mainScene?: GameScene;
   bg!: Phaser.GameObjects.Rectangle;
   title!: Phaser.GameObjects.Text;
+  upgradeItems: Array<UpgradeItem>;
+  X_MARGIN: number;
+  Y_MARGIN: number;
+
   constructor() {
     super({ key: "UpgradeScene", active: true });
+    this.upgradeItems = [];
+
+    this.X_MARGIN = 0;
+    this.Y_MARGIN = 0;
   }
 
   preload() {
@@ -16,6 +29,9 @@ export default class UpgradeScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.sys.game.canvas;
+
+    this.X_MARGIN = width / 5;
+    this.Y_MARGIN = height / 3;
     this.bg = this.add
       .rectangle(0, 0, width, height, 0, -1)
       .setAlpha(0)
@@ -41,6 +57,21 @@ export default class UpgradeScene extends Phaser.Scene {
       this.mainScene!.isUpgrading = false;
       return this.scene.resume("GameScene");
     });
+    this.createMenuItems();
+  }
+
+  createMenuItems() {
+    this.upgradeItems = upgradesList.map(
+      (item, idx) =>
+        new UpgradeItem(
+          this,
+          this.X_MARGIN + (idx % ITEMS_PER_LINE) * 300,
+          this.Y_MARGIN + Math.floor(idx / ITEMS_PER_COLUMN) * 500,
+          item.title,
+          item.description,
+          item.icon
+        )
+    );
   }
 
   checkAlpha() {

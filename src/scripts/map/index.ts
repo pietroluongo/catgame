@@ -17,6 +17,14 @@ interface CircleData {
   style: string;
 }
 
+interface RectData {
+  x: number;
+  y: number;
+  id: string;
+  style: string;
+  properties: string;
+}
+
 interface MapSpawner {
   x: number;
   y: number;
