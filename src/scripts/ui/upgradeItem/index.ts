@@ -1,6 +1,6 @@
 import GameScene from "../../../scenes/Game";
 import UpgradeScene from "../../../scenes/UpgradeScene";
-import { UpgradeData } from "../../player";
+import Player, { UpgradeData } from "../../player";
 
 const CARD_WIDTH = 250;
 const CARD_HEIGHT = 400;
@@ -75,10 +75,25 @@ export default class UpgradeItem extends Phaser.GameObjects.GameObject {
       .setOrigin(0.5);
     this.upgradeButton = this.scene.add
       .rectangle(x, y + 150, CARD_WIDTH - 20, 50, 0x07589f, 1)
-      .setInteractive();
+      .setInteractive()
+      .on("pointerup", () => {
+        this.upgradeData.handleIncrease(scene.player);
+        this.updateTexts();
+      });
+
     this.upgradeText = this.scene.add
       .text(x, y + 150, "UPGRADE", { fontSize: "2rem" })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setInteractive();
+  }
+
+  updateTexts() {
+    this.currentUpgradeLevelText.setText(
+      `${this.upgradeData.currentLevel}/${this.upgradeData.maxLevel}`
+    );
+    this.priceText.setText(
+      `Preço: ${this.upgradeData.prices[this.upgradeData.currentLevel]}`
+    );
   }
 
   setVisibility(v: boolean) {

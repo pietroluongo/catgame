@@ -135,6 +135,7 @@ export default class GameScene extends Phaser.Scene {
 
   nextRound() {
     this.round += 1;
+    this.enemies = [];
     this.respawnEnemies();
   }
 

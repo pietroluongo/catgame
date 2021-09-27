@@ -15,6 +15,7 @@ export interface UpgradeData {
   maxLevel: number;
   values: Array<number>;
   prices: Array<number>;
+  handleIncrease: (self: Player) => void;
 }
 interface UpgradeLevels {
   totalHealth: UpgradeData;
@@ -26,59 +27,60 @@ interface UpgradeLevels {
   bulletDamage: UpgradeData;
   bulletPenetration: UpgradeData;
 }
-
-const standardUpgrades: UpgradeLevels = {
-  totalHealth: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [100, 125, 150, 175, 200],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  fireSpeed: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [0.8, 0.6, 0.4, 0.2, 0],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  moveSpeed: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [200, 400, 600, 800, 1000],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  dropChance: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [0.01, 0.02, 0.04, 0.08, 0.1],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  bulletSize: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [1, 2, 3, 4, 5],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  bulletDamage: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [100, 200, 400, 800, 1000],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  bulletSpeed: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [500, 800, 1000, 2500, 5000],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-  bulletPenetration: {
-    currentLevel: 1,
-    maxLevel: 5,
-    values: [0, 2, 4, 8, 10],
-    prices: [10000, 10000, 10000, 10000, 10000],
-  },
-};
-
 export default class Player extends FlyingObject {
+  standardUpgrades: UpgradeLevels = {
+    totalHealth: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [100, 125, 150, 175, 200],
+      prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: this.handleTotalHealthIncrease,
+    },
+    fireSpeed: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [0.8, 0.6, 0.4, 0.2, 0],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+    moveSpeed: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [200, 400, 600, 800, 1000],
+      prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: this.handleMoveSpeedIncrease,
+    },
+    dropChance: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [0.01, 0.02, 0.04, 0.08, 0.1],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+    bulletSize: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [1, 2, 3, 4, 5],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+    bulletDamage: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [100, 200, 400, 800, 1000],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+    bulletSpeed: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [500, 800, 1000, 2500, 5000],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+    bulletPenetration: {
+      currentLevel: 1,
+      maxLevel: 5,
+      values: [0, 2, 4, 8, 10],
+      prices: [10000, 10000, 10000, 10000, 10000],
+    },
+  };
+
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin;
   hasFiredSinceLastClick: boolean;
   canBrake: boolean;
@@ -105,7 +107,7 @@ export default class Player extends FlyingObject {
     this.canShoot = true;
     this.isAlive = true;
     this.health = 100;
-    this.upgrades = standardUpgrades;
+    this.upgrades = this.standardUpgrades;
     this.maxHealth = this.upgrades.totalHealth.values[0];
     this.keyboard = keyboard;
     this.sprite.setMaxVelocity(this.upgrades.moveSpeed.values[0]);
@@ -113,6 +115,7 @@ export default class Player extends FlyingObject {
     this.canBrake = true;
     this.sprite.body.setSize(100, 100);
     this.score = 0;
+    this.upgrades.totalHealth.handleIncrease = this.handleTotalHealthIncrease;
   }
 
   handleMovementKeys = () => {
@@ -207,8 +210,43 @@ export default class Player extends FlyingObject {
       case PossibleUpgrades.totalHealth:
         return this.upgrades.totalHealth;
       default:
-        return { currentLevel: -1, maxLevel: -1, values: [], prices: [] };
+        return {
+          currentLevel: -1,
+          maxLevel: -1,
+          values: [],
+          prices: [],
+          handleIncrease: () => {},
+        };
     }
+  }
+  // Not sure why, but >this< won't work here. Probably some lambda function shenanigans
+  handleTotalHealthIncrease(self: Player) {
+    if (self.upgrades.totalHealth.currentLevel >= 5) return;
+    const targetPrice =
+      self.upgrades.totalHealth.prices[
+        self.upgrades.totalHealth.currentLevel - 1
+      ];
+    if (self.score < targetPrice) return;
+    self.score -= targetPrice;
+    self.upgrades.totalHealth.currentLevel++;
+    self.maxHealth =
+      self.upgrades.totalHealth.values[
+        self.upgrades.totalHealth.currentLevel - 1
+      ];
+    self.health = self.maxHealth;
+  }
+
+  // Not sure why, but >this< won't work here. Probably some lambda function shenanigans
+  handleMoveSpeedIncrease(self: Player) {
+    if (self.upgrades.moveSpeed.currentLevel >= 5) return;
+    const targetPrice =
+      self.upgrades.moveSpeed.prices[self.upgrades.moveSpeed.currentLevel - 1];
+    if (self.score < targetPrice) return;
+    self.score -= targetPrice;
+    self.upgrades.moveSpeed.currentLevel++;
+    self.sprite.setMaxVelocity(
+      self.upgrades.moveSpeed.values[self.upgrades.moveSpeed.currentLevel - 1]
+    );
   }
 
   handlePointer = () => {
@@ -244,7 +282,9 @@ export default class Player extends FlyingObject {
   };
 
   heal = () => {
-    this.health! += HEALTHPACK_HEAL_BASE_AMOUNT;
+    if (!this.health) return;
+    this.health += HEALTHPACK_HEAL_BASE_AMOUNT;
+    if (this.health >= this.maxHealth) this.health = this.maxHealth;
   };
 
   die = () => {
