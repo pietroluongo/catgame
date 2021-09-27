@@ -8,6 +8,7 @@ import {
   ENEMY_MAX_SPEED,
   ENEMY_SHOOT_BASE_SPEED,
   ENEMY_SHOOT_DELAY,
+  getEnemyHealthPerRound,
   HEALTHPACK_CHANCE,
   SCORE_PER_KILL,
 } from "../../utils";
@@ -29,7 +30,7 @@ export default class Enemy extends FlyingObject {
     this.minimumDistanceToShoot = ENEMY_BASE_SHOOT_DISTANCE; // This is arbitrary
     this.updateCounter = 0;
     this.counterLimitToShoot = ENEMY_SHOOT_DELAY; // This is arbitrary
-    this.health = 100;
+    this.health = getEnemyHealthPerRound(scene.round);
     this.canMove = true;
     this.isAlive = true;
     this.acceleration = 0;

@@ -191,6 +191,12 @@ export default class Player extends FlyingObject {
     });
   };
 
+  getCurrentDamageValues() {
+    return this.upgrades.bulletDamage.values[
+      this.upgrades.bulletDamage.currentLevel - 1
+    ];
+  }
+
   getUpgradeParamById(id: PossibleUpgrades): UpgradeData {
     switch (id) {
       case PossibleUpgrades.bulletDamage:

@@ -34,3 +34,9 @@ export const HEALTHPACK_CHANCE = 0.05;
 export const HEALTHPACK_HEAL_BASE_AMOUNT = 25;
 
 export const HEALTHPACK_TIMEOUT = 5000;
+
+export const getEnemyHealthPerRound = (round: number): number =>
+  0.2627 * round ** 3 + 4.611 * round ** 2 + 68.576 * round + 6.0967;
+
+export const getEnemiesOnRound = (round: number) =>
+  0.000058 * round ** 3 + 0.074032 * round ** 2 + 0.718119 * round + 14.738699;
