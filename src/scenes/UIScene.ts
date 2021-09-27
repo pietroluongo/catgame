@@ -108,16 +108,18 @@ export default class UIScene extends Phaser.Scene {
         .setOrigin(0.5)
         .setAlpha(0);
 
-      this.tweens.add({
-        targets: [txt, txt2, txt3],
-        alpha: 1,
-        duration: 3000,
-      });
+      setTimeout(() => {
+        this.tweens.add({
+          targets: [txt, txt2, txt3],
+          alpha: 1,
+          duration: 2000,
+        });
+      }, 1000);
 
       this.tweens.add({
         targets: [deathBg],
         alpha: 0.8,
-        duration: 3000,
+        duration: 600,
       });
     }
   };

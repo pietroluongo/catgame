@@ -78,9 +78,11 @@ export default class UpgradeScene extends Phaser.Scene {
     if (this.mainScene?.isUpgrading) {
       this.title.setAlpha(1);
       this.bg.setAlpha(0.2);
+      this.upgradeItems.map((m) => m.setVisibility(true));
     } else {
       this.bg.setAlpha(0);
       this.title.setAlpha(0);
+      this.upgradeItems.map((m) => m.setVisibility(false));
     }
   }
 
