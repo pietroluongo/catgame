@@ -16,6 +16,7 @@ export interface UpgradeData {
   values: Array<number>;
   prices: Array<number>;
   handleIncrease: (self: Player) => void;
+  isEnabled: boolean;
 }
 interface UpgradeLevels {
   totalHealth: UpgradeData;
@@ -35,12 +36,15 @@ export default class Player extends FlyingObject {
       values: [100, 125, 150, 175, 200],
       prices: [10000, 10000, 10000, 10000, 10000],
       handleIncrease: this.handleTotalHealthIncrease,
+      isEnabled: true,
     },
     fireSpeed: {
       currentLevel: 1,
       maxLevel: 5,
       values: [0.8, 0.6, 0.4, 0.2, 0],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: () => {},
+      isEnabled: false,
     },
     moveSpeed: {
       currentLevel: 1,
@@ -48,36 +52,47 @@ export default class Player extends FlyingObject {
       values: [200, 400, 600, 800, 1000],
       prices: [10000, 10000, 10000, 10000, 10000],
       handleIncrease: this.handleMoveSpeedIncrease,
+      isEnabled: true,
     },
     dropChance: {
       currentLevel: 1,
       maxLevel: 5,
       values: [0.01, 0.02, 0.04, 0.08, 0.1],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: () => {},
+      isEnabled: false,
     },
     bulletSize: {
       currentLevel: 1,
       maxLevel: 5,
-      values: [1, 2, 3, 4, 5],
+      values: [2, 3, 4, 4.5, 5],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: this.handleBulletSizeIncrease,
+      isEnabled: true,
     },
     bulletDamage: {
       currentLevel: 1,
       maxLevel: 5,
       values: [100, 200, 400, 800, 1000],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: this.handleBulletDamageIncrease,
+      isEnabled: true,
     },
     bulletSpeed: {
       currentLevel: 1,
       maxLevel: 5,
       values: [500, 800, 1000, 2500, 5000],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: this.handleBulletSpeedIncrease,
+      isEnabled: true,
     },
     bulletPenetration: {
       currentLevel: 1,
       maxLevel: 5,
       values: [0, 2, 4, 8, 10],
       prices: [10000, 10000, 10000, 10000, 10000],
+      handleIncrease: () => {},
+      isEnabled: false,
     },
   };
 
@@ -177,15 +192,19 @@ export default class Player extends FlyingObject {
     this.scene.input.once("pointerdown", () => {
       if (!this.hasFiredSinceLastClick) {
         this.hasFiredSinceLastClick = true;
-        const projectile = new Projectile(
+        new Projectile(
           this.scene,
           "powercookie",
           ProjectileType.player,
           this.sprite.x,
           this.sprite.y,
           this.sprite.angle,
-          3000,
-          5
+          this.upgrades.bulletSpeed.values[
+            this.upgrades.bulletSpeed.currentLevel - 1
+          ],
+          this.upgrades.bulletSize.values[
+            this.upgrades.bulletSize.currentLevel - 1
+          ]
         );
       }
     });
@@ -222,6 +241,7 @@ export default class Player extends FlyingObject {
           values: [],
           prices: [],
           handleIncrease: () => {},
+          isEnabled: false,
         };
     }
   }
@@ -253,6 +273,42 @@ export default class Player extends FlyingObject {
     self.sprite.setMaxVelocity(
       self.upgrades.moveSpeed.values[self.upgrades.moveSpeed.currentLevel - 1]
     );
+  }
+
+  // Not sure why, but >this< won't work here. Probably some lambda function shenanigans
+  handleBulletSpeedIncrease(self: Player) {
+    if (self.upgrades.bulletSpeed.currentLevel >= 5) return;
+    const targetPrice =
+      self.upgrades.bulletSpeed.prices[
+        self.upgrades.bulletSpeed.currentLevel - 1
+      ];
+    if (self.score < targetPrice) return;
+    self.score -= targetPrice;
+    self.upgrades.bulletSpeed.currentLevel++;
+  }
+
+  // Not sure why, but >this< won't work here. Probably some lambda function shenanigans
+  handleBulletDamageIncrease(self: Player) {
+    if (self.upgrades.bulletDamage.currentLevel >= 5) return;
+    const targetPrice =
+      self.upgrades.bulletDamage.prices[
+        self.upgrades.bulletDamage.currentLevel - 1
+      ];
+    if (self.score < targetPrice) return;
+    self.score -= targetPrice;
+    self.upgrades.bulletDamage.currentLevel++;
+  }
+
+  // Not sure why, but >this< won't work here. Probably some lambda function shenanigans
+  handleBulletSizeIncrease(self: Player) {
+    if (self.upgrades.bulletSize.currentLevel >= 5) return;
+    const targetPrice =
+      self.upgrades.bulletSize.prices[
+        self.upgrades.bulletSize.currentLevel - 1
+      ];
+    if (self.score < targetPrice) return;
+    self.score -= targetPrice;
+    self.upgrades.bulletSize.currentLevel++;
   }
 
   handlePointer = () => {

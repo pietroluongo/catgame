@@ -73,6 +73,7 @@ export default class UpgradeItem extends Phaser.GameObjects.GameObject {
         }
       )
       .setOrigin(0.5);
+
     this.upgradeButton = this.scene.add
       .rectangle(x, y + 150, CARD_WIDTH - 20, 50, 0x07589f, 1)
       .setInteractive()
@@ -84,7 +85,11 @@ export default class UpgradeItem extends Phaser.GameObjects.GameObject {
     this.upgradeText = this.scene.add
       .text(x, y + 150, "UPGRADE", { fontSize: "2rem" })
       .setOrigin(0.5)
-      .setInteractive();
+      .setInteractive()
+      .on("pointerup", () => {
+        this.upgradeData.handleIncrease(scene.player);
+        this.updateTexts();
+      });
   }
 
   updateTexts() {
@@ -97,6 +102,12 @@ export default class UpgradeItem extends Phaser.GameObjects.GameObject {
   }
 
   setVisibility(v: boolean) {
+    const checkPurchaseButtonVisibility = () => {
+      if (!this.upgradeData.isEnabled) {
+        this.upgradeButton.setAlpha(0).removeInteractive();
+        this.upgradeText.setText("Desabilitado");
+      }
+    };
     if (v) {
       this.background.setAlpha(1);
       this.title.setAlpha(1);
@@ -114,6 +125,7 @@ export default class UpgradeItem extends Phaser.GameObjects.GameObject {
       this.currentUpgradeLevelText.setAlpha(0);
       this.priceText.setAlpha(0);
     }
+    checkPurchaseButtonVisibility();
   }
 
   create() {}
