@@ -8,6 +8,7 @@ import { EnemySpawner } from "../scripts/spawner";
 import Healthpack from "../scripts/healthpack";
 import Droppable from "../scripts/droppable";
 import { generateNewCatGame } from "..";
+import { CURRENT_MAP } from "../utils";
 
 export const INITIAL_CAMERA_ZOOM = 1;
 
@@ -46,7 +47,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/backgroundSpace.png");
 
-    this.load.text("mapData", this.currentMap);
+    this.load.text("mapData", `/assets/maps/${CURRENT_MAP}.svg`);
     this.load.audio("nyanCat", ["assets/sfx/nyanCat.ogg"]);
 
     this.load.image("catbase", "assets/sprites/catbase.png");

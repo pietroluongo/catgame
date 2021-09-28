@@ -35,6 +35,8 @@ export const HEALTHPACK_HEAL_BASE_AMOUNT = 25;
 
 export const HEALTHPACK_TIMEOUT = 5000;
 
+export const CURRENT_MAP = "catMap";
+
 export const getEnemyHealthPerRound = (round: number): number =>
   0.2627 * round ** 3 + 4.611 * round ** 2 + 68.576 * round + 6.0967;
 
