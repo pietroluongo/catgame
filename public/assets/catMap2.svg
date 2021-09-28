@@ -8,7 +8,7 @@
    version="1.1"
    id="svg60"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
-   sodipodi:docname="catMap.svg"
+   sodipodi:docname="catMap2.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,8 +25,8 @@
      showgrid="true"
      units="px"
      inkscape:zoom="0.125"
-     inkscape:cx="5263.9999"
-     inkscape:cy="4747.9999"
+     inkscape:cx="5256"
+     inkscape:cy="4748"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="1912"
@@ -73,57 +73,43 @@
        x="2270.125"
        y="931.33331" />
     <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.269208"
-       id="rect372"
-       width="32"
-       height="250.03125"
-       x="560.66669"
-       y="1259.1666" />
-    <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.345053"
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.585402"
        id="rect376"
        width="32"
-       height="250.03101"
-       x="842.69794"
-       y="1259.1666" />
-    <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.269208"
-       id="rect372-6"
-       width="32"
-       height="250.03125"
-       x="1875.6459"
-       y="1250.1562" />
+       height="719.66669"
+       x="666.5"
+       y="1016" />
     <rect
        style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.345053"
        id="rect376-3"
        width="32"
        height="250.03101"
-       x="2159.0312"
-       y="1248.8333" />
-    <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.264583"
-       id="rect678"
-       width="762"
-       height="42.333332"
-       x="1016"
+       x="1206.5"
        y="1418.1666" />
     <circle
        style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.264583"
        id="path1281-1"
-       cx="2040.2245"
-       cy="1063.7468"
+       cx="1936.5078"
+       cy="1637.3635"
        r="100" />
     <circle
        style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.264583"
        id="path1281-8"
-       cx="697.7381"
-       cy="1670.9449"
+       cx="843.78809"
+       cy="1330.1616"
        r="100" />
     <circle
        style="fill:#ff0000;fill-rule:evenodd;stroke-width:0.264583"
        id="path1281-5"
-       cx="1403.972"
-       cy="1648.0283"
+       cx="2038.972"
+       cy="1068.0616"
        r="100" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.585402"
+       id="rect376-0"
+       width="32"
+       height="719.66669"
+       x="1703.6666"
+       y="1016" />
   </g>
 </svg>

@@ -20,7 +20,7 @@ export default class MainMenu extends Phaser.Scene {
     });
     logo.setInteractive();
     logo.on("pointerup", () => {
-      this.scene.start("GameScene");
+      this.scene.start("GameScene", { currentMap: "assets/catMap.svg" });
     });
   }
 

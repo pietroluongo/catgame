@@ -25,8 +25,9 @@ export default class GameScene extends Phaser.Scene {
   isPaused: boolean;
   isUpgrading: boolean;
   canRestart: boolean;
+  currentMap: string;
 
-  constructor() {
+  constructor(currentMap: string = "assets/catMap.svg") {
     super("GameScene");
     this.projectiles = [];
     this.barriers = [];
@@ -38,12 +39,13 @@ export default class GameScene extends Phaser.Scene {
     this.isPaused = false;
     this.isUpgrading = false;
     this.canRestart = false;
+    this.currentMap = currentMap;
   }
 
   preload() {
     this.load.image("background", "assets/backgroundSpace.png");
 
-    this.load.text("mapData", "assets/catMap.svg");
+    this.load.text("mapData", this.currentMap);
 
     this.load.image("catbase", "assets/sprites/catbase.png");
     this.load.image("catnip", "assets/sprites/catnip.png");
