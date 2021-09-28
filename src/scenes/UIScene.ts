@@ -68,6 +68,7 @@ export default class UIScene extends Phaser.Scene {
       !this.hasDrawnDeathText
     ) {
       this.hasDrawnDeathText = true;
+      this.mainScene.stopMusic();
       const deathBg = this.add
         .rectangle(0, 0, this.screenWidth, this.screenHeight, 0)
         .setAlpha(0)
