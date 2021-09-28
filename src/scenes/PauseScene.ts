@@ -33,9 +33,11 @@ export default class PauseScene extends Phaser.Scene {
       if (this.mainScene?.isUpgrading) return;
       if (!this.mainScene!.isPaused) {
         this.mainScene!.isPaused = true;
+        this.mainScene?.pauseMusic();
         return this.scene.pause("GameScene");
       }
       this.mainScene!.isPaused = false;
+      this.mainScene?.resumeMusic();
       return this.scene.resume("GameScene");
     });
   }

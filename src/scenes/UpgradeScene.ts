@@ -55,12 +55,17 @@ export default class UpgradeScene extends Phaser.Scene {
       if (this.mainScene?.isPaused || !this.player.isAlive) return;
       if (!this.mainScene!.isUpgrading) {
         this.mainScene!.isUpgrading = true;
+        this.mainScene?.pauseMusic();
         return this.scene.pause("GameScene");
       }
       this.mainScene!.isUpgrading = false;
+      this.mainScene?.resumeMusic();
       return this.scene.resume("GameScene");
     });
-    this.createMenuItems();
+    setTimeout(() => {
+      this.player = this.mainScene!.player;
+      this.createMenuItems();
+    }, 2000);
   }
 
   createMenuItems() {

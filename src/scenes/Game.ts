@@ -26,8 +26,9 @@ export default class GameScene extends Phaser.Scene {
   isUpgrading: boolean;
   canRestart: boolean;
   currentMap: string;
+  backgroundMusic!: Phaser.Sound.BaseSound;
 
-  constructor(currentMap: string = "assets/catMap.svg") {
+  constructor(currentMap: string = "assets/maps/catMap.svg") {
     super("GameScene");
     this.projectiles = [];
     this.barriers = [];
@@ -46,6 +47,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("background", "assets/backgroundSpace.png");
 
     this.load.text("mapData", this.currentMap);
+    this.load.audio("nyanCat", ["assets/sfx/nyanCat.ogg"]);
 
     this.load.image("catbase", "assets/sprites/catbase.png");
     this.load.image("catnip", "assets/sprites/catnip.png");
@@ -75,6 +77,7 @@ export default class GameScene extends Phaser.Scene {
   };
 
   create() {
+    this.backgroundMusic = this.sound.add("nyanCat");
     this.barrierParentObject = new Phaser.GameObjects.GameObject(
       this,
       "sprite"
@@ -114,6 +117,23 @@ export default class GameScene extends Phaser.Scene {
       .setZoom(0.1)
       .setName("minimap");
     minimap.startFollow(this.player);
+    this.playMusic();
+  }
+
+  stopMusic() {
+    this.backgroundMusic.stop();
+  }
+
+  pauseMusic() {
+    this.backgroundMusic.pause();
+  }
+
+  resumeMusic() {
+    this.backgroundMusic.resume();
+  }
+
+  playMusic() {
+    this.backgroundMusic.play();
   }
 
   update() {
