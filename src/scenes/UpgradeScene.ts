@@ -15,6 +15,7 @@ export default class UpgradeScene extends Phaser.Scene {
   X_MARGIN: number;
   Y_MARGIN: number;
   player!: Player;
+  backgroundMusic!: Phaser.Sound.BaseSound;
 
   constructor() {
     super({ key: "UpgradeScene", active: true });
@@ -27,9 +28,11 @@ export default class UpgradeScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/debugTiles.jpeg");
     this.load.image("logo", "assets/phaser3-logo.png");
+    this.load.audio("porkgrind", ["assets/sfx/porkgrind.ogg"]);
   }
 
   create() {
+    this.backgroundMusic = this.sound.add("porkgrind");
     const { width, height } = this.sys.game.canvas;
 
     this.X_MARGIN = width / 5;
@@ -56,16 +59,34 @@ export default class UpgradeScene extends Phaser.Scene {
       if (!this.mainScene!.isUpgrading) {
         this.mainScene!.isUpgrading = true;
         this.mainScene?.pauseMusic();
+        this.playMusic();
         return this.scene.pause("GameScene");
       }
       this.mainScene!.isUpgrading = false;
       this.mainScene?.resumeMusic();
+      this.stopMusic();
       return this.scene.resume("GameScene");
     });
     setTimeout(() => {
       this.player = this.mainScene!.player;
       this.createMenuItems();
     }, 2000);
+  }
+
+  stopMusic() {
+    this.backgroundMusic.stop();
+  }
+
+  pauseMusic() {
+    this.backgroundMusic.pause();
+  }
+
+  resumeMusic() {
+    this.backgroundMusic.resume();
+  }
+
+  playMusic() {
+    this.backgroundMusic.play();
   }
 
   createMenuItems() {
