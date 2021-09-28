@@ -80,8 +80,8 @@ export default class GameScene extends Phaser.Scene {
       "sprite"
     );
 
-    const bg = this.add.image(0, 0, "background").setOrigin(0);
-    bg.setScale(5);
+    const bg = this.add.image(5100, 5100, "background").setOrigin(0.5);
+    bg.setScale(2);
     bg.setAlpha(0.5);
     this.renderTutorial();
     this.player = new Player(this, 5100, 5100, this.keyboard);
