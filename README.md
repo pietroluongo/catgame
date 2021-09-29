@@ -11,7 +11,7 @@ Jogo desenvolvido para a disciplina de Linguagens de Programação, no período 
 O jogo consiste em um twin stick shooter tematizado ao redor do [Nyan Cat](https://www.youtube.com/watch?v=QH2-TGUlwu4) (bem vindo de volta a 2011!). Pilote a nave de torrada do Nyan Cat, destrua os gatinhos rivais que querem comer a sua nave e sobreviva o maior tempo possível!
 
 ## Executando o jogo
-Você pode executar os seguintes comandos para rodar o jogo:
+Você pode jogar online [aqui](https://pietroluongo.github.io/). De maneira alternativa é possível executar os seguintes comandos para rodar o jogo:
 ```
 git clone https://github.com/pietroluongo/catgame.git
 cd catgame
